@@ -34,9 +34,9 @@ AppAsset::register($this);
                 ],
             ]);
         
-            $menuItems = [ 
+            $menuItems  = [ 
                 ['label' => 'Home', 'url' => ['/site/index']], 
-                ['label' => 'Admin Panel', 'url' => Yii::$app->urlManagerBackend->createUrl('/')], 
+                ['label' => 'Admin Panel', 'url' => Yii::$app->urlManagerBackend->createUrl('/'),'visible' => !yii::$app->user->isGuest], 
                 [
                     'label' => 'Welcome, '.Yii::$app->user->identity->username,
                     'url' => '#',
@@ -69,10 +69,12 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
+        <?php if(yii::$app->user->id): ?>
         <div class="btn-group" role="group" aria-label="...">
             <a href=<?= Url::to(['/users/index']);  ?>><button type="button" class="btn btn-primary">Users</button></a>
             <a href=<?= Url::to(['/topic/index']);  ?>><button type="button" class="btn btn-default">Topics</button></a>            
         </div>
+        <?php endif; ?>
         <?= $content ?>
         </div>
     </div>
