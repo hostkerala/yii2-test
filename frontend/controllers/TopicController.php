@@ -150,4 +150,18 @@ class TopicController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+    /**
+    * Created By Roopan v v <yiioverflow@gmail.com>
+    * Date : 03-04-2015
+    * Time :10:00 PM
+    * Ajaxt Function which updates the comments list in a specific time interval
+    */
+    public function actionList($id)
+    {
+            $model = $this->findModel($id);
+            echo $this->renderPartial('comments/_list', array('model'=>$model));
+            yii::$app->end();
+
+    }    
 }

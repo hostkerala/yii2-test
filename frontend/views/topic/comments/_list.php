@@ -6,18 +6,20 @@ use yii\widgets\DetailView;
 use yii\base\Controller;
 use yii\timeago\TimeAgo;
 use frontend\assets\AppAsset;
+use yii\base\View;
 
 AppAsset::register($this);
 
+date_default_timezone_set(yii::$app->params['timeZone']);
+
+
 ?>
-
-
-
+<div  id="comment-list">
 <?php foreach($model->comments as $comment): ?>            
 <hr />
 <div class="flag-icon flag-icon-Ru flag-style"></div>
 
-<div class="row" id="comment-list">	   
+<div class="row">	   
 		<div class="row" style="height:20px;"><?php $country = $comment->user->state->country;   ?>                    
                     <div class="text-info"><?php echo $comment->user->username ?>&nbsp;<div class="flag-icon flag-icon-<?= strtolower($country->country_iso_2) ?> flag-style"></div>&nbsp;<small><?= TimeAgo::widget(['timestamp' => $comment->createdAt]); ?></small></div>
                     <?php if(common\models\Topic::isAuthor($comment->topicId) || yii::$app->user->identity->isAdmin) {  //Admin Have all Rights ?> 
@@ -45,4 +47,21 @@ AppAsset::register($this);
                 </div> 
 </div>
  <?php endforeach; ?>
+</div>
+<?php
+$this->registerJs("$(document).ready(function() {        
+        setInterval(ajaxCall, 3000); // Request in every 30 seconds
+        function ajaxCall() {            
+            $.ajax({
+              url: '".Url::to(['topic/list','id'=>$model->id])."',
+              cache: false
+            })
+              .done(function( html ) {
+                $( '#comment-list' ).empty();
+                $( '#comment-list' ).append( html );
+              });
 
+        }
+    }
+    );");
+?>
