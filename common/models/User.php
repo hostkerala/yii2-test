@@ -116,4 +116,13 @@ class User extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Zipareas::className(), ['id' => 'city_id']);
     }
+    
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProfile()
+    {
+        return $this->hasOne(Profile::className(), ['user_id' => 'id']);
+    }
 }

@@ -70,7 +70,7 @@ class TopicController extends Controller
         $query = new Query;
         
         $authorTopics = new ActiveDataProvider([
-            'query' => $query->from('Topic')->orderBy('id desc')->where("user_id=$model->user_id AND id <> $model->id AND topic_end >= UNIX_TIMESTAMP(CURDATE())"),
+            'query' => $query->from('topic')->orderBy('id desc')->where("user_id=$model->user_id AND id <> $model->id AND topic_end >= UNIX_TIMESTAMP(CURDATE())"),
             'pagination' => [
                 'pageSize' => 20,
             ],
@@ -89,8 +89,12 @@ class TopicController extends Controller
     {
         $model = new Topic();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->user_id = Yii::$app->user->id;
+            if($model->save())
+            {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,

@@ -44,7 +44,7 @@ class Topic extends \yii\db\ActiveRecord
     {
         return [
             [['created_at'], 'safe'],
-            [['topic_end', 'user_id', 'category_id', 'title', 'content', 'thumbnail'], 'required'],
+            [['topic_end', 'user_id', 'category_id', 'title', 'content'], 'required'],
             [['user_id', 'category_id', 'status'], 'integer'],
             [['content'], 'string'],
             [['title', 'thumbnail'], 'string', 'max' => 250]
@@ -114,7 +114,7 @@ class Topic extends \yii\db\ActiveRecord
     {
         if ($this->isNewRecord)
         {
-            $this->created_at = new Expression('NOW()');
+            $this->created_at = time();
         }
         $this->topic_end = strtotime($this->topic_end);
         

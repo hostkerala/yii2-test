@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php //  } ?>
 
 <?php echo $this->render('comments/_list', array('model'=>$model)); ?>
-<?php //if($authorTopics->totalItemCount && (\common\models\Topic::isAuthor($model->id) || yii::$app->user->identity->isAdmin)) : ?>
-<h2> Other My Topics ( <?php //echo $authorTopics->totalItemCount; ?>)</h2>
-<?php //$this->render('comments/_authorTopics',array('authorTopics'=>$authorTopics)) ?>
-<?php //endif; ?>
+<?php if($authorTopics->getCount() > 0  && (\common\models\Topic::isAuthor($model->id) || yii::$app->user->identity->isAdmin)) : ?>
+<h2> Other My Topics ( <?php echo $authorTopics->getCount(); ?>)</h2>
+<?php  echo $this->render('comments/_author_topics',array('authorTopics'=>$authorTopics)) ?>
+<?php endif; ?>

@@ -6,7 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\User */
 
-?>$this->title = "Users List";
+?>
+<?php $this->title = "Users List"; ?>
 <div class="user-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
