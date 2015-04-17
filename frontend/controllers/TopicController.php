@@ -130,8 +130,11 @@ class TopicController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $topic = $this->findModel($id);
+        
+        //$topic->comments->delete();  
+        
+        $topic->delete();
         return $this->redirect(['index']);
     }
 

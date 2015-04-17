@@ -34,7 +34,7 @@ use kartik\select2\Select2;
         'model' => $model,
         'attribute' => 'skills',
         'name' => 'Skills',
-        'data' => array_merge(["" => ""], \common\models\Skill::getAllSkill()),
+        'data' => \common\models\Skill::getAllSkill(),
         'options' => [
             'placeholder' => 'desciplines',
             'class' => 'form-control',

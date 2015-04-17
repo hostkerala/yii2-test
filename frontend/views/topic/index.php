@@ -27,10 +27,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'content:ntext',
             [
-            'attribute' => 'category_id',
-            'format' => 'raw',
-            'filter'=>common\models\Categories::dropdown(),
+                'attribute' => 'category_id',
+                'format' => 'raw',
+                'filter'=>common\models\Categories::dropdown(),
             ], 
+            [                
+                'attribute' => 'skill',
+                'value' => function ($model) {                      
+                    return $model->skills->name;
+                },
+            ],
             /*[
             'attribute' => 'created_at',
             'format' => 'raw',                   

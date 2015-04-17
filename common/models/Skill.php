@@ -69,10 +69,14 @@ class Skill extends \yii\db\ActiveRecord
     
     public static function getAllSkill()
     {        
-        return (new \yii\db\Query())
-        ->select(['name'])
-        ->from('skill')
-        ->one();
+       $skills = (new \yii\db\Query())
+                ->select(['name'])
+                ->from('skill')
+                ->one();
+        
+        if (is_array($skills))
+            return $skills;
+            return [];
     }
     
     public static function addTags($skills, $topic_id)
