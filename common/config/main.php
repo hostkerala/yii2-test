@@ -5,7 +5,7 @@ return [
         'user' => [
             'class' => 'dektrium\user\Module',
             'enableUnconfirmedLogin' => true,            
-            'admins' => ['roopan','roopz'],
+            'admins' => ['roopan'],
             'enableFlashMessages' => false,               
             
         ],

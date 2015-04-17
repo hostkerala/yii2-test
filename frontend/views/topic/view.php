@@ -32,10 +32,10 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <hr>
-<h2>Comments (<?php echo count($model->getComments()); ?>)</h2>
-<?php	//if((((Yii::$app->user->id != $model->user_id) && ($postComment ))) || yii::$app->user->identity->isAdmin) { //Admin Have all Rights?>
+<h2>Comments (<?php echo count($model->comments); ?>)</h2>
+<?php	if((((Yii::$app->user->id != $model->user_id) && ($postComment ))) || yii::$app->user->identity->isAdmin) { //Admin Have all Rights?>
 	<?php	echo $this->render('comments/_form', array('model'=>$model, 'comment' => $comment)); ?>
-<?php //  } ?>
+<?php   } ?>
 
 <?php echo $this->render('comments/_list', array('model'=>$model)); ?>
 <?php if($authorTopics->getCount() > 0  && (\common\models\Topic::isAuthor($model->id) || yii::$app->user->identity->isAdmin)) : ?>

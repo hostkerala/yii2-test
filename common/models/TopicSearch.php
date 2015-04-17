@@ -18,7 +18,7 @@ class TopicSearch extends Topic
     public function rules()
     {
         return [
-            [['created_at', 'title', 'content', 'thumbnail'], 'safe'],
+            [['created_at','topic_end', 'title', 'content', 'thumbnail'], 'safe'],
             [['topic_end', 'user_id', 'category_id', 'status', 'id'], 'integer'],
         ];
     }
@@ -47,6 +47,8 @@ class TopicSearch extends Topic
             'query' => $query,
         ]);
 
+        
+        
         $this->load($params);
 
         if (!$this->validate()) {
@@ -54,15 +56,14 @@ class TopicSearch extends Topic
             // $query->where('0=1');
             return $dataProvider;
         }
-
         $query->andFilterWhere([
-            'created_at' => $this->created_at,
-            'topic_end' => $this->topic_end,
+            'DATE(FROM_UNIXTIME('.$this->tableName() . '.created_at))' => $this->created_at,
+            'DATE(FROM_UNIXTIME('.$this->tableName() . '.topic_end))' => $this->topic_end,
             'user_id' => $this->user_id,
             'category_id' => $this->category_id,
             'status' => $this->status,
             'id' => $this->id,
-        ]);
+        ]);          
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'content', $this->content])

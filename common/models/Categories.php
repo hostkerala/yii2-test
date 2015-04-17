@@ -60,4 +60,12 @@ class Categories extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Topic::className(), ['id' => 'topic_id'])->viaTable('rel_topic_category', ['categories_id' => 'id']);
     }
+    
+    public static function dropdown() {
+        $models = static::find()->all();
+        foreach ($models as $model) {
+            $dropdown[$model->id] = $model->name;
+        }
+        return $dropdown;
+    }    
 }
