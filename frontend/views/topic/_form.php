@@ -29,23 +29,33 @@ use kartik\select2\Select2;
     );
     ?>
     <?php
-    echo '<label class="control-label">Tag Content</label>';
+    echo '<label class="control-label">Skills</label>';
     echo Select2::widget([
         'model' => $model,
         'attribute' => 'skills',
         'name' => 'Skills',
-        'data' => \common\models\Skill::getAllSkill(),
+        'data' => array_merge(["" => ""], \common\models\Skill::getAllSkill()),
         'options' => [
             'placeholder' => 'desciplines',
             'class' => 'form-control',
-            'multiple' => true
-        ], 
+            'multiple' => true,
+            'tokenSeparators' => array(',', ' '),
+        ],
+            'pluginOptions' => [
+        'allowClear' => true
+    ],
     ]);
     ?>
+    <br />
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Submit' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
-
 </div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        $("#Skills").val('<?php echo common\models\Skill::getTopicSkill($model->id);?>');
+    });
+</script>

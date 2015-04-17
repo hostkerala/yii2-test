@@ -66,7 +66,8 @@ class Topic extends \yii\db\ActiveRecord
             'status' => 'Status',
             'thumbnail' => 'Thumbnail',
             'id' => 'ID',
-            'skills'=>'Skills'
+            'skills'=>'Skills',
+            'category_id'=>'Category'
         ];
     }
 
@@ -119,6 +120,23 @@ class Topic extends \yii\db\ActiveRecord
         $this->topic_end = strtotime($this->topic_end);
         
         return parent::beforeSave($insert);
+    }
+    
+    
+    public function afterSave($insert, $changedAttributes)
+    {
+        
+        $skillContent = Yii::$app->request->post('Skills');
+        if ($skillContent)
+        {
+            common\models\Skill::addTags($skillContent, $this->id);
+        }
+        else
+        {            
+            $sql = "DELETE FROM rel_topic_skills WHERE topic_id=$this->id";
+            Yii::$app->db->createCommand($sql)->execute();
+        }
+        parent::afterSave($insert, $changedAttributes);
     }
     
     public static function isAuthor($topicId)

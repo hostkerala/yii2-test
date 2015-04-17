@@ -1,6 +1,9 @@
 <?php
 
 namespace common\models;
+use yii\helpers\ArrayHelper;
+use yii\db\Query;
+use yii\db\QueryBuilder;
 
 use Yii;
 
@@ -76,23 +79,63 @@ class Skill extends \yii\db\ActiveRecord
     {
             $arraySkills = explode(',', strtolower(strip_tags($skills)));
             foreach ($arraySkills as $skill) {
-                    $skillModel = Skill::model()->findByAttributes(array('name' => trim($skill)));
+                    $skillModel = common\models\Skill::find(['name' => trim($skill)])->one();
                     if (!$skillModel) {
-                            $skillModel = new Skill();
+                            $skillModel = new common\models\Skill();
                             $skillModel->name = trim($skill);
                             $skillModel->save();
                     }
-            }
-
-            Yii::app()->db->createCommand()->delete('rel_topic_skills', 'topic_id=:topic_id', $params = array(':topic_id' => $topic_id));
+            }            
+                        
+            $sql = "DELETE FROM rel_topic_skills WHERE topic_id=$topic_id";
+            Yii::$app->db->createCommand($sql)->execute();
 
             foreach ($arraySkills as $skill) {
-                    $skillId = Skill::model()->findByAttributes(array('name' => trim($skill)))->id;
-                    Yii::app()->db->createCommand()->insert('rel_topic_skills', array(
+                    $skillId = \common\models\Skill::find(['name' => trim($skill)])->one()->id;
+                    Yii::$app()->db->createCommand()->insert('rel_topic_skills',[
                             'topic_id' => $topic_id,
                             'skill_id' => $skillId,
-                    ));
+                    ]);
             }
-            $this->countUsedSkill();
+            $this->countUsedSkill();    
+            
+            }    
+    
+    public static function getTopicSkill($topic_id = '')
+    {
+            $str = null;
+            if (!empty($topic_id)) {
+
+                    $modeltopicskills = RelTopicSkills::find(['topic_id' => $topic_id])->all();
+                    if ($modeltopicskills) {
+                        $arrayModels = \yii\helpers\ArrayHelper::map($modeltopicskills, 'skill_id','skill.name'); //id = your ID model, name = your caption                          
+                        $str = implode(',', $arrayModels);
+                    }
+            }
+            return $str;
+    }    
+    
+    private function countUsedSkill()
+    {
+        $query = new Query;
+        $query2 = new Query;
+        $queryBuilder = new QueryBuilder;
+        $query->select('id')
+                ->from('skill');
+        $arraySkill = $query->all(); 
+
+        if ($arraySkill) {
+            foreach ($arraySkill as $value) {
+                foreach ($value as $id) 
+                    {
+                        $query2->select('COUNT(skill_id)')
+                        ->from('rel_topic_skills')
+                        ->where('skill_id = ' . $id)->one();
+                        $sql = $queryBuilder->update('skill', ['counter' => $query2,'id'=>':id'],'age > 30',[':id' => $id]);
+                        $sql->execute();
+                }
+
+            }
+        }
     }    
 }
