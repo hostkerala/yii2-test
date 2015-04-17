@@ -41,9 +41,6 @@ use kartik\select2\Select2;
             'multiple' => true,
             'tokenSeparators' => array(',', ' '),
         ],
-            'pluginOptions' => [
-        'allowClear' => true
-    ],
     ]);
     ?>
     <br />

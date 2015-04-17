@@ -117,4 +117,40 @@ class UsersController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+    /**
+     * List users
+     */
+    public function actionUsers()
+    {
+            /*Yii::app()->getModule('user');
+            $dataProvider = new CActiveDataProvider('User', array('pagination' => array('pageSize' => 2)));
+            if (Yii::app()->request->getQuery('skill')) {
+                    $skill = Skill::model()->findByAttributes(array('name' => Yii::app()->request->getQuery('skill')));
+                    if ($skill) {
+                            $dataProvider->criteria->join = 'JOIN rel_user_skills t1 ON t.id = t1.user_id';
+                            $dataProvider->criteria->compare('t1.skill_id', $skill->id);
+                    }
+            }
+
+            $this->render('users', array('dataProvider' => $dataProvider));*/
+    }
+
+    /**
+     * Autocomplete suggest options
+     */
+    public function actionAutocompleteSkillSet()
+    {
+            $res = array();
+
+            if (isset($_GET['term'])) {
+                    $sql = "SELECT name FROM skill WHERE name LIKE :name";
+                    $command = Yii::app()->db->createCommand($sql);
+                    $command->bindValue(":name", '%' . $_GET['term'] . '%', PDO::PARAM_STR);
+                    $res = $command->queryColumn();
+            }
+
+            echo CJSON::encode($res);
+            Yii::app()->end();
+    }    
 }
