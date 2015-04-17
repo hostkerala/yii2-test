@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'format' => 'raw',
             'filter'=>common\models\Categories::dropdown(),
             ], 
-            [
+            /*[
             'attribute' => 'created_at',
             'format' => 'raw',                   
             'value' => function ($model) {                      
@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                            ]
                                          ),
             'filterInputOptions' => ['class'=>'form-control'],  
-            ],            
+            ],*/           
             [
             'attribute' => 'topic_end',
             'format' => 'raw',                   

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use common\models\States;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\User */
@@ -13,10 +14,16 @@ use yii\widgets\DetailView;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'email:email',
             'username',
-            'created_at',
+            [
+                'attribute'=>'state_id',
+                'value'=>$model->state->state_name_en,
+            ],
+            [
+                'attribute'=>'city',
+                'value'=>$model->city->city,
+            ],            
+            //'skills'
         ],
     ]) ?>
 

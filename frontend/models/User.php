@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "user".
@@ -92,13 +93,20 @@ class User extends \yii\db\ActiveRecord
             'state_id' => 'State ID',
         ];
     }
+    
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
 
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getComments()
     {
-        return $this->hasMany(Comments::className(), ['userId' => 'id']);
+        return $this->hasMany(\common\models\Comments::className(), ['userId' => 'id']);
     }
 
     /**
@@ -106,7 +114,7 @@ class User extends \yii\db\ActiveRecord
      */
     public function getState()
     {
-        return $this->hasOne(States::className(), ['id' => 'state_id']);
+        return $this->hasOne(\common\models\States::className(), ['id' => 'state_id']);
     }
 
     /**
@@ -114,6 +122,6 @@ class User extends \yii\db\ActiveRecord
      */
     public function getCity()
     {
-        return $this->hasOne(Zipareas::className(), ['id' => 'city_id']);
+        return $this->hasOne(\common\models\Zipareas::className(), ['id' => 'city_id']);
     }
 }

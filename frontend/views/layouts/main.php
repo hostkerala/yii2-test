@@ -36,7 +36,7 @@ AppAsset::register($this);
         
             $menuItems  = [ 
                 ['label' => 'Home', 'url' => ['/site/index']], 
-                ['label' => 'Admin Panel', 'url' => Yii::$app->urlManagerBackend->createUrl('/'),'visible' => !yii::$app->user->isGuest], 
+                ['label' => 'Admin Panel', 'url' => Yii::$app->urlManagerBackend->createUrl('/'),'visible' => yii::$app->user->identity->isAdmin], 
                 [
                     'label' => 'Welcome, '.Yii::$app->user->identity->username,
                     'url' => '#',
