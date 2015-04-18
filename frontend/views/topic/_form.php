@@ -1,5 +1,4 @@
 <?php
-
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
@@ -19,7 +18,15 @@ use kartik\select2\Select2;
     <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>    
     <?= $form->field($model, 'topic_end')->widget(\yii\jui\DatePicker::classname(), [
      //'language' => 'ru',
-    'dateFormat' => 'yyyy-MM-dd',
+    'dateFormat' => 'MM/dd/yyyy',
+    'clientOptions'=>[
+    'changeMonth' => 'true',
+    'changeYear' => 'true',
+    'showButtonPanel' => 'true',
+    'constrainInput' => 'false',
+    'duration' => 'fast',
+    'showAnim' => 'slide',
+     ],
     'options'=>['class'=>'form-control']
     ]) ?> 
     <?php

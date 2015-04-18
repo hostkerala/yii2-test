@@ -67,4 +67,12 @@ class States extends \yii\db\ActiveRecord
     {
         return $this->hasMany(User::className(), ['state_id' => 'id']);
     }
+    
+     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getZipareas()
+    {
+        return $this->hasMany(Zipareas::className(), ['state' => 'id']);
+    }
 }

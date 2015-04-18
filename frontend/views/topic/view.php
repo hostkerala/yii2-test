@@ -36,7 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php	if((((Yii::$app->user->id != $model->user_id) && ($postComment ))) || yii::$app->user->identity->isAdmin) { //Admin Have all Rights?>
 	<?php	echo $this->render('comments/_form', array('model'=>$model, 'comment' => $comment)); ?>
 <?php   } ?>
-<hr />
 <?php echo $this->render('comments/_list', array('model'=>$model)); ?>
 <?php if($authorTopics->getCount() > 0 ) : ?>
 <h2> Other My Topics ( <?php echo $authorTopics->getCount(); ?>)</h2>

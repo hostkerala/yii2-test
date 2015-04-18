@@ -98,8 +98,13 @@ class StatesController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model =  $this->findModel($id);
+        
+        foreach($model->zipareas as $zipareas)
+        {
+            $zipareas->delete();
+        }
+        $model->delete();
         return $this->redirect(['index']);
     }
 

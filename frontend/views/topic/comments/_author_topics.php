@@ -20,8 +20,8 @@ use yii\grid\GridView;
             'content:ntext',
             ['class' => 'yii\grid\ActionColumn','template' => '{view}',   
                 'urlCreator' => function ($action, $model, $key, $index) {
-                    if ($action === 'view') {
-                        $url = Url::to(['topic/index'/*,'id'=>$model->id]*/]); 
+                    if ($action === 'view') { 
+                        $url = Url::to(['topic/view','id'=>$model['id']]); 
                         return $url;
                     }
                 }],

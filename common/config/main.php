@@ -9,7 +9,7 @@ return [
                     'User' => 'common\models\User',
                 ],
             'enableUnconfirmedLogin' => true,            
-            'admins' => ['roopan'],
+            'admins' => ['hostkerala'],
             'enableFlashMessages' => false,               
             
         ],

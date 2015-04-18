@@ -31,8 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'created_at',
                 'value' => function ($model) {                      
-                    return date("m/d/Y", strtotime($model->created_at));
-                },       
+                    return $model->created_at;
+                },  
+                'format' => 'date',
                 'filter' => DatePicker::widget([
                         'model' => $searchModel,
                         'attribute' => 'created_at',
@@ -60,9 +61,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'topic_end',
             'format' => 'raw',                   
             'value' => function ($model) {                      
-                    return Yii::$app->formatter->asDate($model->topic_end, "m/d/Y");
+                    return $model->topic_end;
             },
-
+            'format' => 'date',
             'filter' => DatePicker::widget([
                                             'model' => $searchModel,
                                             'attribute' => 'topic_end',

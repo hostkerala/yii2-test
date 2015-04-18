@@ -114,10 +114,13 @@ class Topic extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         if ($this->isNewRecord)
-        {
-            $this->created_at = time();
+        {            
+            $this->created_at = time();        
         }
+        
         $this->topic_end = strtotime($this->topic_end);
+        
+        //echo $this->created_at."..........".$this->topic_end."....".date("m/d/yy", strtotime($model->created_at))."......".date("m/d/yy", strtotime($model->topic_end));exit;
         
         return parent::beforeSave($insert);
     }

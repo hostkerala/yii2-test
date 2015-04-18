@@ -88,8 +88,10 @@ class TopicController extends Controller
     public function actionCreate()
     {
         $model = new Topic();
-
         if ($model->load(Yii::$app->request->post())) {
+            
+            //print_r(Yii::$app->request->post());exit;
+            
             $model->user_id = Yii::$app->user->id;
             if($model->save())
             {
@@ -132,7 +134,10 @@ class TopicController extends Controller
     {
         $topic = $this->findModel($id);
         
-        //$topic->comments->delete();  
+        foreach($topic->comments as $comments)
+        {
+            $comments->delete();
+        }
         
         $topic->delete();
         return $this->redirect(['index']);
