@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\jui\DatePicker;
+use yii\helpers\ArrayHelper;
+use backend\models\Standard;
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\TopicSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -27,41 +29,44 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'content:ntext',
             [
+                'attribute' => 'created_at',
+                'value' => function ($model) {                      
+                    return date("m/d/Y", strtotime($model->created_at));
+                },       
+                'filter' => DatePicker::widget([
+                        'model' => $searchModel,
+                        'attribute' => 'created_at',
+                        'dateFormat' => 'MM/dd/yyyy',                                            
+                       ]
+                     ),
+            ],                      
+            [
                 'attribute' => 'category_id',
-                'format' => 'raw',
-                'filter'=>common\models\Categories::dropdown(),
-            ], 
-            [                
-                'attribute' => 'skill',
+                'value' => function ($model) {                      
+                    return common\models\Categories::find(['id'=>$model->category_id])->one()->name;
+                },                
+                'filter'=>Html::dropDownList('TopicSearch[category_id]', null, ArrayHelper::map(common\models\Categories::find()->all(), 'id', 'name'),['prompt'=>'All','class'=>'form-control']),
+                'filterInputOptions' => ['class'=>'form-control'],  
+            ],                          
+            [
+                'attribute' => 'skills',
                 'value' => function ($model) {                      
                     return $model->skills->name;
-                },
-            ],
-            /*[
-            'attribute' => 'created_at',
-            'format' => 'raw',                   
-            'value' => function ($model) {                      
-                    return Yii::$app->formatter->asDate($model->created_at, "yyyy-MM-dd");
-            },
-            'filter' => DatePicker::widget([
-                                            'model' => $searchModel,
-                                            'attribute' => 'created_at',
-                                            'dateFormat' => 'yyyy-MM-dd',                                            
-                                           ]
-                                         ),
-            'filterInputOptions' => ['class'=>'form-control'],  
-            ],*/           
+                },                
+                'filter'=>Html::dropDownList('skills', null, ArrayHelper::map(common\models\Skill::find()->all(), 'id', 'name'),['prompt'=>'All','class'=>'form-control']),
+                'filterInputOptions' => ['class'=>'form-control'],  
+            ],      
             [
             'attribute' => 'topic_end',
             'format' => 'raw',                   
             'value' => function ($model) {                      
-                    return Yii::$app->formatter->asDate($model->topic_end, "yyyy-MM-dd");
+                    return Yii::$app->formatter->asDate($model->topic_end, "m/d/Y");
             },
 
             'filter' => DatePicker::widget([
                                             'model' => $searchModel,
                                             'attribute' => 'topic_end',
-                                            'dateFormat' => 'yyyy-MM-dd',                                            
+                                            'dateFormat' => 'MM/dd/yyyy',  
                                            ]
                                          ),
             'filterInputOptions' => ['class'=>'form-control'],  

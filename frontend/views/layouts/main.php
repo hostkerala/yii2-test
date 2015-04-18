@@ -35,8 +35,8 @@ AppAsset::register($this);
             ]);
         
             $menuItems  = [ 
-                ['label' => 'Home', 'url' => ['/site/index']], 
-                ['label' => 'Admin Panel', 'url' => Yii::$app->urlManagerBackend->createUrl('/'),'visible' => yii::$app->user->identity->isAdmin], 
+                ['label' => 'Home', 'url' => ['/site/users']], 
+                ['label' => 'Admin Panel', 'url' => Yii::$app->urlManagerBackend->createUrl('/'),'visible' => !Yii::$app->user->isGuest && yii::$app->user->identity->isAdmin ? true : false], 
                 [
                     'label' => 'Welcome, '.Yii::$app->user->identity->username,
                     'url' => '#',
@@ -71,7 +71,7 @@ AppAsset::register($this);
         <?= Alert::widget() ?>
         <?php if(yii::$app->user->id): ?>
         <div class="btn-group" role="group" aria-label="...">
-            <a href=<?= Url::to(['/users/index']);  ?>><button type="button" class="btn btn-primary">Users</button></a>
+            <a href=<?= Url::to(['/site/users']);  ?>><button type="button" class="btn btn-primary">Users</button></a>
             <a href=<?= Url::to(['/topic/index']);  ?>><button type="button" class="btn btn-default">Topics</button></a>            
         </div>
         <?php endif; ?>

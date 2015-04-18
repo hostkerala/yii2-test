@@ -15,6 +15,8 @@ use yii\filters\AccessControl;
 use yii\web\Request;
 use yii\data\ActiveDataProvider;
 use common\filters\AccessRules;
+use yii\db\Query;
+use yii\helpers\Json;
 /**
  * Site controller
  */
@@ -35,7 +37,7 @@ class SiteController extends Controller
                 ],
                 'rules' => [
                     [
-                        'actions' => ['index', 'users'],
+                        'actions' => ['users','skills'],
                         'allow' => true,
                         'roles' => ['@','admin'],
                     ],
@@ -191,4 +193,24 @@ class SiteController extends Controller
         }
         return $this->render('users/index', array('dataProvider' => $dataProvider));
     }
+    
+    /**
+     * Autocomplete suggest options
+     */
+    public function actionSkills()
+    {         
+        $result = [];
+        $query = new Query;
+        if (isset($_GET['term'])) 
+        {
+            $query->select('name')
+                   ->from('skill');
+            $query->andWhere(['like', 'name', $_GET['term']]);                  
+            // ->bindValue(":name", '%' . $_GET['term'] . '%', PDO::PARAM_STR);
+            $result = $query->all();
+        }        
+        echo Json::encode($result);
+        Yii::$app->end(); 
+    }
+    
 }
