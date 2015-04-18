@@ -12,31 +12,32 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-
+use yii\web\Request;
+use yii\data\ActiveDataProvider;
+use common\filters\AccessRules;
 /**
  * Site controller
  */
 class SiteController extends Controller
 {
+    public $defaultAction = 'users';
+    
     /**
      * @inheritdoc
      */
     public function behaviors()
-    {
+    {        
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'ruleConfig' => [
+                    'class' => AccessRules::className(),
+                ],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['index', 'users'],
                         'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['@','admin'],
                     ],
                 ],
             ],
@@ -45,8 +46,8 @@ class SiteController extends Controller
                 'actions' => [
                     'logout' => ['post'],
                 ],
-            ],
-        ];
+            ],            
+        ];                
     }
 
     /**
@@ -167,5 +168,27 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+    
+    /**
+     * List users
+     */
+    public function actionUsers()
+    {  
+        $query = \common\models\User::find();        
+        $dataProvider = new ActiveDataProvider([
+                                'query' =>$query,
+                                'pagination' => [
+                                    'pageSize' => 2,
+                                ]
+                        ]);
+        if (Yii::$app->request->getQueryParam('skill')) {
+                $skill = common/models/Skill::find(['name' => Yii::$app->request->getQueryParam('skill')]);
+                if ($skill) {
+                        $query->joinWith(['relUserSkills' => function($query) { $query->from(['author' => 'users']); }]);
+                        $query->andFilterWhere(['relUserSkills.id' => $skill->id]);
+                }
+        }
+        return $this->render('users/index', array('dataProvider' => $dataProvider));
     }
 }

@@ -12,6 +12,7 @@ use frontend\models\User;
  */
 class UserSearch extends User
 {
+    
     /**
      * @inheritdoc
      */

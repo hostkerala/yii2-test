@@ -1,6 +1,8 @@
 <?php
 
 namespace common\models;
+use dektrium\user\models\User as BaseUser;
+use yii\db\Query;
 
 use Yii;
 
@@ -35,7 +37,7 @@ use Yii;
  * @property States $state
  * @property Zipareas $city
  */
-class User extends \yii\db\ActiveRecord
+class User extends BaseUser
 {
     /**
      * @inheritdoc
@@ -125,5 +127,108 @@ class User extends \yii\db\ActiveRecord
     public function getProfile()
     {
         return $this->hasOne(Profile::className(), ['user_id' => 'id']);
+    }
+    
+    
+    public function saveUserSkills()
+    {
+            $skillsToDb = array();
+            $skills = explode(',', $this->skills);
+
+
+            foreach ($skills as $skill) {
+                    $skill = trim(mb_strtolower($skill, 'utf-8'));
+                    if ($skill == '') {
+                            continue;
+                    }
+                    $skillsToDb[] = $skill;
+            }
+
+            
+            $query = new Query;
+            $query->select('*')
+                  ->distinct(true)
+                  ->buildInCondition('IN',['name'=>$skillsToDb]);
+            $command = $query->createCommand();
+            $sql = $command->sql;
+            
+            $models = common/models/Skill::findBySql($sql->all());
+
+            $skillIdList = array();
+            foreach ($models as $model) {
+                    $skillIdList[] = $model->id;
+                    unset($skillsToDb[array_search($model->name, $skillsToDb)]);
+            }
+
+            $sql = "DELETE FROM rel_user_skills WHERE user_id = $this->id ";
+            $command = Yii::$app->db->createCommand($sql);
+            $command->bindValue(":user", $this->id, PDO::PARAM_INT);
+            $command->execute();
+
+
+            foreach ($skillsToDb as $skill) {
+                    $model = new Skill;
+                    $model->name = $skill;
+                    if ($model->save()) {
+                            $skillIdList[] = $model->id;
+                    }
+            }
+            foreach ($skillIdList as $skillId) {
+                    $sql = "INSERT INTO  rel_user_skills (user_id, skill_id) VALUES (:user, :skill)";
+                    $command = Yii::$app->db->createCommand($sql);
+                    $command->bindValue(":user", $this->id, PDO::PARAM_INT);
+                    $command->bindValue(":skill", $skillId, PDO::PARAM_INT);
+                    $command->execute();
+            }
+    }
+    
+    /**
+     * get User skills
+     * @return array
+     */
+    public function getUserSkills()
+    {            
+        $query = new Query;
+        $query->select('*')
+            ->from('skill')
+            ->where('user_id = :id')
+            ->join('INNER JOIN','rel_user_skills', 'rel_user_skills.skill_id = id')
+            ->params([':id' => $this->id]);
+        
+        $tags = $query->all();
+        //$command = $query->createCommand();
+        // $command->sql returns the actual SQL
+        //$rows = $command->queryAll();
+        return $tags;
+    }
+
+    /**
+     * get User skills
+     * @return string
+     */
+    public function getUserSkillsString()
+    {
+            $skills = $this->userSkills;
+            $result = array();
+            foreach ($skills as $skill) {
+                    $result[] = $skill['name'];
+            }
+            return implode(',', $result);
+    }   
+    
+    /**
+     * @return boolean
+     */
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if (!$this->isNewRecord)
+            {
+                 $this->saveUserSkills();             
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }

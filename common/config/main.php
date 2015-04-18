@@ -4,6 +4,10 @@ return [
     'modules' => [
         'user' => [
             'class' => 'dektrium\user\Module',
+               'modelMap' => 
+                [
+                    'User' => 'common\models\User',
+                ],
             'enableUnconfirmedLogin' => true,            
             'admins' => ['roopan'],
             'enableFlashMessages' => false,               
