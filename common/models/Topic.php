@@ -120,19 +120,17 @@ class Topic extends \yii\db\ActiveRecord
         
         $this->topic_end = strtotime($this->topic_end);
         
-        //echo $this->created_at."..........".$this->topic_end."....".date("m/d/yy", strtotime($model->created_at))."......".date("m/d/yy", strtotime($model->topic_end));exit;
-        
         return parent::beforeSave($insert);
     }
     
     
     public function afterSave($insert, $changedAttributes)
     {
-        
-        $skillContent = Yii::$app->request->post('Skills');
+    
+        $skillContent = Yii::$app->request->post('Topic')['skills'];
         if ($skillContent)
         {
-            common\models\Skill::addTags($skillContent, $this->id);
+            Skill::addTags($skillContent, $this->id);
         }
         else
         {            

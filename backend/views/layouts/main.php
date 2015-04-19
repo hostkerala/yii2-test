@@ -1,6 +1,7 @@
 <?php
 use backend\assets\AppAsset;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
@@ -75,57 +76,49 @@ AppAsset::register($this);
             ]);
             NavBar::end();
         ?>
-
-        <div class="container">
+        
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
+        
+        <div class="container">
             <div class="col-md-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading"> 
-                        <h4>Navigation</h4>
-                    </div>
-                    <div class="panel-body">  
-                <?= Nav::widget([
-                    'options' => [
-                        'class' => 'nav-pills nav-stacked'
-                    ],
-                    'items' => [
-                        ['label' => 'Users', 'url' => ['/user/admin/index']],
-                        [
-                            'label' => 'Pages', 'url' => '#',
-                            'items' => 
-                            [
-                                ['label' => 'Create', 'url' => ['/pages/create']],
-                                ['label' => 'List', 'url' => ['/pages/index']],
-                            ],
-                        ],  
-                        [
-                            'label' => 'Settings',  'url' => ['/settings/index'],
-                            
-                        ],                        
-                    ]
-                ]) ?>                        
-                    </div>
-                </div>
+                <div class="list-group">                    
+                    <a href="#" class="list-group-item disabled">
+                      <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                      Users
+                    </a>
+                    <a href="<?= Url::to(['/user/admin/index']) ?>" class="list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> List</a>
+                    <a href="<?= Url::to(['/user/admin/create']) ?>" class="list-group-item"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create</a>
+                    <a href="#" class="list-group-item disabled">
+                      <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Pages
+                    </a>
+                    <a href="<?= Url::to(['/pages/index']) ?>" class="list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> List</a>
+                    <a href="<?= Url::to(['/pages/create']) ?>" class="list-group-item"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create</a>
+                    <a href="#" class="list-group-item disabled">
+                      <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Settings
+                    </a>   
+                    <a href="<?= Url::to(['/settings/index']) ?>" class="list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> List</a>                  
+                </div>    
             </div>
             <div class="col-md-10">
                 <div class="panel panel-default">
                     <div class="panel-heading">  
-                        <h4>Admin Panel</h4>
+                        <h4><span class="glyphicon glyphicon-plane" aria-hidden="true"></span> Admin Panel</h4>
                     </div>
                     <div class="panel-body">  
                     <?= $content ?>
                     </div>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
 
     <footer class="footer">
         <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="powered">
+            Powered by <a target="_blank" href="#">TEST</a> &copy;. All rights reserved.
+        </p>
         </div>
     </footer>
 

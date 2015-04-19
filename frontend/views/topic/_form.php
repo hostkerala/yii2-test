@@ -36,12 +36,18 @@ use kartik\select2\Select2;
     );
     ?>
     <?php
+    $model->skills = common\models\Skill::getTopicSkill($model->id);
     echo '<label class="control-label">Skills</label>';
+    $skills  = ArrayHelper::getColumn(\common\models\Skill::find()->select('name')->all(), 'name');
     echo Select2::widget([
         'model' => $model,
-        'attribute' => 'skills',
+        'attribute' => 'skills',        
         'name' => 'Skills',
-        'data' => \common\models\Skill::getAllSkill(),
+        //'value' => common\models\Skill::getTopicSkill($model->id),
+        'pluginOptions' => [
+            'tags' => $skills,
+            'maximumInputLength' => 10
+        ],
         'options' => [
             'placeholder' => 'desciplines',
             'class' => 'form-control',
@@ -58,8 +64,10 @@ use kartik\select2\Select2;
     <?php ActiveForm::end(); ?>
 </div>
 
-<script type="text/javascript">
-    jQuery(document).ready(function () {
-        $("#Skills").val('<?php echo common\models\Skill::getTopicSkill($model->id);?>');
-    });
-</script>
+
+<?php
+//$topicSkills = common\models\Skill::getTopicSkill($model->id);
+//$this->registerJs("$(document).ready(function () {
+       // $('#Skills').val('$topicSkills');
+   // });");
+?>

@@ -33,7 +33,6 @@ class Skill extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'counter'], 'required'],
             [['counter'], 'integer'],
             [['name'], 'string', 'max' => 128]
         ];
@@ -81,29 +80,27 @@ class Skill extends \yii\db\ActiveRecord
     
     public static function addTags($skills, $topic_id)
     {
-            $arraySkills = explode(',', strtolower(strip_tags($skills)));
-            foreach ($arraySkills as $skill) {
-                    $skillModel = common\models\Skill::find(['name' => trim($skill)])->one();
-                    if (!$skillModel) {
-                            $skillModel = new common\models\Skill();
-                            $skillModel->name = trim($skill);
-                            $skillModel->save();
-                    }
-            }            
-                        
-            $sql = "DELETE FROM rel_topic_skills WHERE topic_id=$topic_id";
-            Yii::$app->db->createCommand($sql)->execute();
+        $arraySkills = explode(',', strtolower(strip_tags($skills)));
+        foreach ($arraySkills as $skill) {
+                $query = new Query;
+                $skillModel = $query->select("name")->from('skill')->where(['name'=>trim($skill)])->scalar();                  
+                if (!$skillModel) {
+                        $skillModel = new Skill();
+                        $skillModel->name = trim($skill);
+                        $skillModel->save();
+                }                     
+        }    
+        $sql = "DELETE FROM rel_topic_skills WHERE topic_id=$topic_id";            
+        Yii::$app->db->createCommand($sql)->execute();
 
-            foreach ($arraySkills as $skill) {
-                    $skillId = \common\models\Skill::find(['name' => trim($skill)])->one()->id;
-                    Yii::$app()->db->createCommand()->insert('rel_topic_skills',[
-                            'topic_id' => $topic_id,
-                            'skill_id' => $skillId,
-                    ]);
-            }
-            $this->countUsedSkill();    
-            
-            }    
+        foreach ($arraySkills as $skill) {
+                $skillId = $query->select("id")->from('skill')->where(['name'=>trim($skill)])->scalar();                  
+                Yii::$app->db->createCommand()->insert('rel_topic_skills',[
+                        'topic_id' => $topic_id,
+                        'skill_id' => $skillId,
+                ])->execute();                    
+        }
+    }    
     
     public static function getTopicSkill($topic_id = '')
     {
@@ -119,27 +116,22 @@ class Skill extends \yii\db\ActiveRecord
             return $str;
     }    
     
-    private function countUsedSkill()
+    
+    private static function countUsedSkill()
     {
+            
         $query = new Query;
-        $query2 = new Query;
-        $queryBuilder = new QueryBuilder;
-        $query->select('id')
-                ->from('skill');
-        $arraySkill = $query->all(); 
-
+        $arraySkill = $query->select('id')->from('skill')->all();  
+        $queryCounter = new Query;   
+           
         if ($arraySkill) {
-            foreach ($arraySkill as $value) {
-                foreach ($value as $id) 
-                    {
-                        $query2->select('COUNT(skill_id)')
-                        ->from('rel_topic_skills')
-                        ->where('skill_id = ' . $id)->one();
-                        $sql = $queryBuilder->update('skill', ['counter' => $query2,'id'=>':id'],'age > 30',[':id' => $id]);
-                        $sql->execute();
-                }
+                foreach ($arraySkill as $value) {
+                        foreach ($value as $id) {
+                            $queryCounterData = $queryCounter->select('COUNT(skill_id)')->from('rel_topic_skills')->where('skill_id = ' . $id)->scalar();
+                            Yii::$app->db->createCommand("UPDATE skill SET counter=$queryCounterData  WHERE id=:id") ->bindValue(':id', $id) ->execute();
+                        }
 
-            }
+                }
         }
-    }    
+    }   
 }

@@ -90,8 +90,6 @@ class TopicController extends Controller
         $model = new Topic();
         if ($model->load(Yii::$app->request->post())) {
             
-            //print_r(Yii::$app->request->post());exit;
-            
             $model->user_id = Yii::$app->user->id;
             if($model->save())
             {
