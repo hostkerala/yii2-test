@@ -2,10 +2,13 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\widgets\ListView;
 use yii\web\JsExpression;
 use common\models\Topic;
 use yii\jui\AutoComplete;
+use kartik\select2\Select2;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\UserSearch */
@@ -13,27 +16,34 @@ use yii\jui\AutoComplete;
 $this->title = "Users List";
 
 ?>
+<?php
+$data = common\models\Skill::find()
+ ->select(['name as value', 'name as  label','id as id'])
+ ->asArray()
+ ->all();
+?>
 
 <?= Html::beginForm(Url::to(['/site/users']),'get',['id'=>'skillFilter']) ?>
 <br />
 <?php
-echo '<label class="control-label">Filter Skills</label><br />';
-echo AutoComplete::widget([
-    //'model' => $model,
-    //'attribute' => 'country',,
-    'clientOptions' => [
-        'source'=>Url::to(['site/skills']),
-         'change'=>"js:function(event, ui) {
-            $('#skillFilter').submit()
-           }",
-        ],
-    'options'=>[
-        'class'=>'form-control', 
-        'style'=>'width:200px;',
-        'placeholder'=>'begin write skill..',
-        'name'=>'skill',
-        'value'=>''
-        ],
+echo '<label class="control-label">Skills</label>';
+$skills  = ArrayHelper::getColumn(\common\models\Skill::find()->select('name')->all(), 'name');
+echo Select2::widget([
+    'model' => $model,
+    'attribute' => 'skills',        
+    'name' => 'skill',
+    //'value' => common\models\Skill::getTopicSkill($model->id),
+    'pluginOptions' => [
+        'tags' => $skills,
+        'maximumInputLength' => 10
+    ],
+    'options' => [
+        'placeholder' => 'desciplines',
+        'class' => 'form-control',
+        'style'=>'width:200px',
+        'multiple' => true,
+        'tokenSeparators' => array(',', ' '),
+    ],
 ]);
 ?>
 <br />

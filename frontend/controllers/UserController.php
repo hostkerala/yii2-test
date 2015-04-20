@@ -7,6 +7,7 @@ use yii\helpers\Json;
 use Yii;
 use yii\filters\AccessControl;
 use common\filters\AccessRules;
+use yii\helpers\Url;
 
 use dektrium\user\controllers\SettingsController as BaseSettingsController;
 
@@ -27,7 +28,7 @@ class UserController extends BaseSettingsController
                 ],
                 'rules' => [
                     [
-                        'actions' => ['city','states','profile','account'],
+                        'actions' => ['city','states','profile','account','remove'],
                         'allow' => true,
                         'roles' => ['@','admin'],
                     ],
@@ -42,9 +43,24 @@ class UserController extends BaseSettingsController
 
         $this->performAjaxValidation($model);
         
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->getSession()->setFlash('success', \Yii::t('user', 'Your profile has been updated'));
-            return $this->refresh();
+        if ($model->load(Yii::$app->request->post()))
+        {
+            $file = \yii\web\UploadedFile::getInstanceByName('Profile[avatar]');
+            if(isset($file->name))
+            {
+                    $model->avatar = $file->name;
+            }
+            
+            if($model->save()) 
+            {         
+                if(isset($file->name))
+                {
+                    $path = Yii::$app->params['uploadPath'] . $model->avatar;
+                    $file->saveAs($path);
+                }
+                Yii::$app->getSession()->setFlash('success', \Yii::t('user', 'Your profile has been updated'));
+                return $this->refresh();
+            }
         }
         
         return $this->render('profile', [
@@ -117,5 +133,16 @@ class UserController extends BaseSettingsController
             'model' => $model,
         ]);
     }    
+    
+    public function actionRemove($id) 
+    {       
+        $model = \common\models\Profile::find(['id'=>$id])->one();        
+        $image = Yii::$app->params['uploadPath'].$model->avatar;
+        if (unlink($image)) {
+            $model->avatar = null;
+            $model->save(false);
+        }
+        return $this->redirect(Url::to(['/user/settings/profile']));
+    }      
 }
 

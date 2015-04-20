@@ -1,15 +1,19 @@
 <?php
 namespace common\models;
-use dektrium\user\models\Profile as BaseProfile;
 use yii\db\Query;
 
 use Yii;
+use yii\helpers\Html;
 
 class Profile extends \yii\db\ActiveRecord
 {
     
     public $skills;
     public $country_id;
+    public $user_id;
+    public $imageDisplay;
+    
+    const IMAGE_PLACEHOLDER = '/frontend/web/images/default_user.jpg';
     
     /**
      * @inheritdoc
@@ -26,7 +30,8 @@ class Profile extends \yii\db\ActiveRecord
     {
         return [
             [['username','state_id','city_id','country_id','email'], 'required'], 
-            [['skills'], 'safe'], 
+            [['skills','avatar'], 'safe'], 
+            [['avatar'], 'file', 'extensions'=>'jpg, gif, png'],
         ];
     }
 
@@ -118,4 +123,32 @@ class Profile extends \yii\db\ActiveRecord
         }
     }
     
+    public function getDisplayImage() 
+    {
+        $model= \common\models\User::find(['id'=>yii::$app->user->id])->one();
+        
+        if (empty($model->avatar)) {
+            // if you do not want a placeholder
+            $image = null;
+            // else if you want to display a placeholder
+//            $image = Html::img(self::IMAGE_PLACEHOLDER, [
+//                'alt'=>Yii::t('app', 'No avatar yet'),
+//                'title'=>Yii::t('app', 'Upload your avatar by selecting browse below'),
+//                'class'=>'img-thumbnail'
+//                // add a CSS class to make your image styling consistent
+//            ]);
+        }
+        else {
+            $image = Html::img(Yii::$app->urlManager->baseUrl . '/uploads/' . $model->avatar, [
+                'alt'=>Yii::t('app', 'Avatar for ') . $model->username,
+                'title'=>Yii::t('app', 'Click remove button below to remove this image'),
+                'class'=>'img-thumbnail'
+                // add a CSS class to make your image styling consistent
+            ]);
+        }
+
+        // enclose in a container if you wish with appropriate styles
+        return ($image == null) ? null : 
+            Html::tag('div', $image, ['class' => 'file-preview-frame']); 
+    }    
 }

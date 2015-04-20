@@ -14,6 +14,8 @@ use yii\helpers\ArrayHelper;
 use kartik\depdrop\DepDrop;
 use yii\helpers\Url;
 use kartik\select2\Select2;
+use kartik\widgets\ActiveForm;
+use kartik\widgets\FileInput;
 
 
 
@@ -39,9 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= Html::encode($this->title) ?>
             </div>
             <div class="panel-body">
-                <?php $form = \yii\widgets\ActiveForm::begin([
+                <?php $form = ActiveForm::begin([
                     'id' => 'profile-form',
-                    'options' => ['class' => 'form-horizontal'],
+                    'options' => ['class' => 'form-horizontal','enctype'=>'multipart/form-data'],
                     'fieldConfig' => [
                         'template' => "{label}\n<div class=\"col-lg-9\">{input}</div>\n<div class=\"col-sm-offset-3 col-lg-9\">{error}\n{hint}</div>",
                         'labelOptions' => ['class' => 'col-lg-3 control-label'],
@@ -53,7 +55,34 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'email') ?>
 
-                <?= $form->field($model, 'username') ?>
+                <?= $form->field($model, 'username') ?>                
+                
+                <div class="row">
+                    <label class="col-lg-3 control-label">&nbsp;</label>
+                        <div class="col-lg-9">
+                        <?php echo $model->DisplayImage; ?>
+                        </div>
+                </div>
+              
+                <?php 
+                // profile.php
+                // display your image or a placeholder first
+
+                if (empty($model->avatar)) {
+                    echo $form->field($model, 'avatar')->widget(FileInput::classname(), [
+                        'options' => ['accept' => 'image/*','showUpload' => false,],
+                    ]);
+                }
+                else {
+                    echo '<br /><div class="row"><div class="col-lg-12">';
+                    echo Html::a(
+                        Yii::t('app', 'Remove Image'), 
+                        Url::to(['/user/settings/remove','id'=>$model->id]),
+                        ['class' => 'btn btn-danger pull-right']
+                    );
+                    echo '</div></div><br />';
+                }
+                ?>
                 
                 <?php
                     $dataCountry=ArrayHelper::map(\common\models\Countries::find()->asArray()->all(), 'id', 'country_name_en');
@@ -123,7 +152,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= \yii\helpers\Html::submitButton(Yii::t('user', 'Update'), ['class' => 'btn  btn-primary']) ?><br>
                     </div>
                 </div>
-                <?php \yii\widgets\ActiveForm::end(); ?>
+                <?php ActiveForm::end(); ?>
             </div>
         </div>
     </div>

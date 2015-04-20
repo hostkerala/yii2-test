@@ -68,7 +68,7 @@ AppAsset::register($this);
                     ]
                 ],    
                 ['label' => 'Login', 'url' => ['/user/security/login'],'visible' => Yii::$app->user->isGuest],  
-                ['label' => 'Register', 'url' => ['/user/registration/register'],'visible' => Yii::$app->user->isGuest],                               
+                ['label' => 'Back to Site', 'url' => Yii::$app->urlManagerFrontend->createUrl('/'),'visible' => Yii::$app->user->isGuest],  
             ];
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-left'],
@@ -79,9 +79,9 @@ AppAsset::register($this);
         
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        
+        ]) ?>       
         <div class="container">
+            <?php if(yii::$app->user->identity->isAdmin): ?>
             <div class="col-md-2">
                 <div class="list-group">                    
                     <a href="#" class="list-group-item disabled">
@@ -101,6 +101,7 @@ AppAsset::register($this);
                     <a href="<?= Url::to(['/settings/index']) ?>" class="list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> List</a>                  
                 </div>    
             </div>
+            <?php  endif;  ?>
             <div class="col-md-10">
                 <div class="panel panel-default">
                     <div class="panel-heading">  

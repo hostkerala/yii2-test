@@ -23,7 +23,10 @@
         "kartik-v/yii2-widget-select2": "*",
         "2amigos/yii2-ckeditor-widget": "~1.0",
 	"yiidoc/yii2-timeago": "dev-master",
-        "kartik-v/yii2-widget-depdrop": "*"
+        "kartik-v/yii2-widget-depdrop": "*",
+        "kartik-v/yii2-widget-fileinput": "*",
+        "kartik-v/yii2-widget-activeform": "*",
+        "kartik-v/yii2-widgets": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
