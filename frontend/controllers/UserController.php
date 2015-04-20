@@ -46,16 +46,18 @@ class UserController extends BaseSettingsController
         if ($model->load(Yii::$app->request->post()))
         {
             $file = \yii\web\UploadedFile::getInstanceByName('Profile[avatar]');
+            
             if(isset($file->name))
             {
-                    $model->avatar = $file->name;
+                    $model->avatar = yii::$app->user->id.".jpg";
             }
             
             if($model->save()) 
             {         
                 if(isset($file->name))
                 {
-                    $path = Yii::$app->params['uploadPath'] . $model->avatar;
+                    $path = Yii::$app->params['uploadPath'] . yii::$app->user->id.".jpg";
+                    if (file_exists($path)) { unlink ($path); }
                     $file->saveAs($path);
                 }
                 Yii::$app->getSession()->setFlash('success', \Yii::t('user', 'Your profile has been updated'));

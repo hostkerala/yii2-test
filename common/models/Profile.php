@@ -31,7 +31,7 @@ class Profile extends \yii\db\ActiveRecord
         return [
             [['username','state_id','city_id','country_id','email'], 'required'], 
             [['skills','avatar'], 'safe'], 
-            [['avatar'], 'file', 'extensions'=>'jpg, gif, png'],
+            [['avatar'], 'file', 'extensions'=>'jpg'],
         ];
     }
 
