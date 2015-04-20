@@ -148,19 +148,28 @@ class User extends BaseUser
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getRelUserSkills()
+    {
+        return $this->hasMany(RelUserSkills::className(), ['user_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getProfile()
     {
         return $this->hasOne(Profile::className(), ['user_id' => 'id']);
     }
 
     public function getUserSkillsString()
-    {
+    { 
             $skills = $this->userSkills;
             $result = array();
             foreach ($skills as $skill) {
                     $result[] = $skill['name'];
             }
             return implode(',', $result);
+            echo $this->userSkills;exit;
     } 
     
     /**

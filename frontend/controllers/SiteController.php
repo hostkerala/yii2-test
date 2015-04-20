@@ -184,11 +184,11 @@ class SiteController extends Controller
                                     'pageSize' => 2,
                                 ]
                         ]);
-        if (Yii::$app->request->getQueryParam('skill')) {
-                $skill = common/models/Skill::find(['name' => Yii::$app->request->getQueryParam('skill')]);
+        if (Yii::$app->request->get('skill')) {
+                $skill = \common\models\Skill::find()->where(['id' => Yii::$app->request->get('skill')])->one();
                 if ($skill) {
-                        $query->joinWith(['relUserSkills' => function($query) { $query->from(['author' => 'users']); }]);
-                        $query->andFilterWhere(['relUserSkills.id' => $skill->id]);
+                        $query->joinWith('relUserSkills');  
+                        $query->andFilterWhere(['skill_id' => $skill->id]);
                 }
         }
         return $this->render('users/index', array('dataProvider' => $dataProvider));

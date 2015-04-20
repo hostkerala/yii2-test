@@ -27,21 +27,17 @@ $data = common\models\Skill::find()
 <br />
 <?php
 echo '<label class="control-label">Skills</label>';
-$skills  = ArrayHelper::getColumn(\common\models\Skill::find()->select('name')->all(), 'name');
+$skills  = ArrayHelper::map( \common\models\Skill::find()->all(),'id','name');
 echo Select2::widget([
     'model' => $model,
-    'attribute' => 'skills',        
+     'attribute' => 'skills', 
+    'data'=>$skills,
     'name' => 'skill',
-    //'value' => common\models\Skill::getTopicSkill($model->id),
-    'pluginOptions' => [
-        'tags' => $skills,
-        'maximumInputLength' => 10
-    ],
     'options' => [
-        'placeholder' => 'desciplines',
+        'placeholder' => 'desciplines....',
+        'onChange'=>"$('#skillFilter').submit()",
         'class' => 'form-control',
         'style'=>'width:200px',
-        'multiple' => true,
         'tokenSeparators' => array(',', ' '),
     ],
 ]);
@@ -49,13 +45,13 @@ echo Select2::widget([
 <br />
 <?= Html::endForm() ?>
 
-<?php if(Yii::$app->request->getQueryParam('skill')): ?>    
+<?php if(Yii::$app->request->get('skill')): ?>    
     <div class="btn-group" role="group" aria-label="...">
         <a href=<?= Url::to(['/site/users']);  ?>><button type="button" class="btn btn-success">Reset Filter</button></a>
     </div>
 <?php  endif; ?>
 
-
+ Specialization: <?php echo Yii::$app->request->get('skill') ? \common\models\Skill::find()->where(['id'=>Yii::$app->request->get('skill')])->one()->name : 'All'; ?>
 <div class="user-index">
     <h1><?= $this->title ?></h1>
     <?= ListView::widget([
