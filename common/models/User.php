@@ -1,8 +1,19 @@
 <?php
 
 namespace common\models;
-use dektrium\user\models\User as BaseUser;
+
+use dektrium\user\Finder;
+use dektrium\user\helpers\Password;
+use dektrium\user\Mailer;
+use dektrium\user\Module;
+use yii\base\NotSupportedException;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\log\Logger;
 use yii\db\Query;
+use yii\web\IdentityInterface;
+
+use dektrium\user\models\User as BaseUser;
 
 use Yii;
 
@@ -64,6 +75,19 @@ class User extends BaseUser
             [['email'], 'unique']
         ];
     }
+    
+    /** @inheritdoc */
+    public function scenarios()
+    {
+        return [
+            'register' => ['username', 'email', 'password'],
+            'connect'  => ['username', 'email'],
+            'create'   => ['username', 'email', 'password','role'],
+            'update'   => ['username', 'email', 'password','role'],
+            'settings' => ['username', 'email', 'password']
+        ];
+    }
+    
 
     /**
      * @inheritdoc
@@ -158,4 +182,32 @@ class User extends BaseUser
         //$rows = $command->queryAll();
         return $tags;
     }
+    
+    public function create()
+    {
+        if ($this->getIsNewRecord() == false) {
+            throw new \RuntimeException('Calling "' . __CLASS__ . '::' . __METHOD__ . '" on existing user');
+        }
+
+        $this->confirmed_at = time();
+
+        if ($this->password == null) {
+            $this->password = Password::generate(8);
+        }
+        
+        if ($this->username === null) {
+            $this->generateUsername();
+        }
+        $this->trigger(self::USER_CREATE_INIT);
+        if ($this->save()) {
+            $this->trigger(self::USER_CREATE_DONE);
+            $this->mailer->sendWelcomeMessage($this);
+            \Yii::getLogger()->log('User has been created', Logger::LEVEL_INFO);
+            return true;
+        }
+
+        \Yii::getLogger()->log('An error occurred while creating user account', Logger::LEVEL_ERROR);
+
+        return false;
+    }    
 }

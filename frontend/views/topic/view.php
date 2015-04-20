@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'created_at',
             'topic_end',
-            'user_id',
+            //'user_id',
             'title',
             'status',
             'thumbnail',

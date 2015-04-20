@@ -11,10 +11,11 @@ return [
                     'Profile' => 'common\models\Profile',
                 ],
                 'controllerMap' => [
-                    'settings' => 'frontend\controllers\UserController'
+                    'settings' => 'frontend\controllers\UserController',
+                    'admin' => 'backend\controllers\AdminController'
                 ],
             'enableUnconfirmedLogin' => true,            
-            'admins' => ['hostkerala'],
+            'admins' => ['admin'],
             'enableFlashMessages' => false,               
             
         ],
@@ -53,7 +54,8 @@ return [
                 [
                 'pathMap' => 
                     [
-                        '@dektrium/user/views' => '@frontend/views/user'
+                        '@dektrium/user/views' => '@frontend/views/user',
+                        '@dektrium/user/views/admin' => '@backend/views/user/admin'
                     ],
                 ],
             ],
