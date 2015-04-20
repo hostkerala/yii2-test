@@ -10,7 +10,7 @@ use yii\base\View;
 
 AppAsset::register($this);
 
-//date_default_timezone_set(yii::$app->params['timeZone']);
+date_default_timezone_set(yii::$app->params['timeZone']);
 
 
 ?>
@@ -21,7 +21,7 @@ AppAsset::register($this);
             <?php $country = $comment->user->state->country;   ?>
             <div class="media-left">
               <a href="#">
-                  <img class="media-object" style="width: 64px; height: 64px;" data-src="http://gravatar.com/avatar/<?= $comment->user->profile->gravatar_id ?>?s=150" class="img-rounded" alt="<?= $user->username ?>"/>
+                  <img class="media-object" style="width: 64px; height: 64px;" src="<?= Yii::$app->urlManager->baseUrl . '/uploads/' . $comment->user->avatar ?>?s=150" class="img-rounded" alt="<?= $user->username ?>"/>
               </a>
             </div>
             <div class="media-body">
@@ -42,8 +42,8 @@ AppAsset::register($this);
     <?php endforeach; ?>
 </div>
 <?php
-/*$this->registerJs("$(document).ready(function() {        
-        setInterval(ajaxCall, 3000); // Request in every 30 seconds
+$this->registerJs("$(document).ready(function() {        
+        setInterval(ajaxCall, 30000); // Request in every 30 seconds
         function ajaxCall() {            
             $.ajax({
               url: '".Url::to(['topic/list','id'=>$model->id])."',
@@ -56,5 +56,5 @@ AppAsset::register($this);
 
         }
     }
-    );");*/
+    );");
 ?>
