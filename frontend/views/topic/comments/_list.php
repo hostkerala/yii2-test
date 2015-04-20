@@ -7,12 +7,9 @@ use yii\base\Controller;
 use yii\timeago\TimeAgo;
 use frontend\assets\AppAsset;
 use yii\base\View;
-
 AppAsset::register($this);
 
 date_default_timezone_set(yii::$app->params['timeZone']);
-
-
 ?>
 <hr />
 <div  id="comment-list">
@@ -21,7 +18,7 @@ date_default_timezone_set(yii::$app->params['timeZone']);
             <?php $country = $comment->user->state->country;   ?>
             <div class="media-left">
               <a href="#">
-                  <img class="media-object" style="width: 64px; height: 64px;" src="<?= Yii::$app->urlManager->baseUrl . '/uploads/' . $comment->user->avatar ?>?s=150" class="img-rounded" alt="<?= $user->username ?>"/>
+                  <img class="media-object" style="width: 64px; height: 64px;" src="<?= Yii::$app->urlManager->baseUrl . '/uploads/' . $comment->user->avatar ?>" class="img-rounded" alt="<?= $user->username ?>"/>
               </a>
             </div>
             <div class="media-body">

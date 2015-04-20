@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php	echo $this->render('comments/_form', array('model'=>$model, 'comment' => $comment)); ?>
 <?php   } ?>
 <?php echo $this->render('comments/_list', array('model'=>$model)); ?>
-<?php if($authorTopics->getCount() > 0 ) : ?>
+<?php if($authorTopics) : ?>
 <h2> Other My Topics ( <?php echo $authorTopics->getCount(); ?>)</h2>
 <?php  echo $this->render('comments/_author_topics',array('authorTopics'=>$authorTopics)) ?>
 <?php endif; ?>

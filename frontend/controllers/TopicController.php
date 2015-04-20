@@ -13,6 +13,9 @@ use yii\helpers\Html;
 
 use yii\db\Query;
 use yii\data\ActiveDataProvider;
+use \yii\filters\AccessControl;
+use common\filters\AccessRules;
+
 
 /**
  * TopicController implements the CRUD actions for Topic model.
@@ -20,15 +23,28 @@ use yii\data\ActiveDataProvider;
 class TopicController extends Controller
 {
     public function behaviors()
-    {
+    {        
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRules::className(),
+                ],
+                'rules' => [
+                    [
+                        'actions' => ['index','view','create','update','delete'],
+                        'allow' => true,
+                        'roles' => ['@','admin'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                    'logout' => ['post'],
                 ],
-            ],
-        ];
+            ],            
+        ];                
     }
 
     /**
@@ -53,13 +69,12 @@ class TopicController extends Controller
      * @return mixed
      */
     public function actionView($id)
-    {
+    {   
         $comment = new \common\models\Comments;
         $model = \common\models\Topic::find()->where(['id'=>$id])->one();
         $postComment = $comment->isAbletoComment(Yii::$app->user->id,$id);
-        
         if ($comment->load(Yii::$app->request->post())) {
-                if(true)//(Yii::$app->user->id != $model->user_id) || (Yii::$app->user->identity->isAdmin)){
+                if((Yii::$app->user->id != $model->user_id) || (Yii::$app->user->identity->isAdmin)){
                         $comment->content = Html::encode($comment->content);
                         $comment->userId = Yii::$app->user->id;
                         $comment->createdAt = date( 'Y-m-d H:i:s');
@@ -68,17 +83,17 @@ class TopicController extends Controller
                                 $this->redirect(Url::to(['topic/view','id'=>$id]));
                         }
                 }        
-        $query = new Query;
-        
+        $query = new Query;        
         $authorTopics = new ActiveDataProvider([
-            'query' => $query->from('topic')->orderBy('id desc')->where("user_id=$model->user_id AND id <> $model->id AND topic_end >= UNIX_TIMESTAMP(CURDATE())"),
-            'pagination' => [
-                'pageSize' => 20,
-            ],
-        ]);
-
-        return $this->render('view', array('model' => $model, 'comment' => $comment, 'postComment'=>$postComment, 'authorTopics'=>$authorTopics));
-
+            'query' => $query->from('topic')->orderBy('id desc')->where(['user_id'=>$model->user_id])
+                                                                 ->andWhere(['<>','id'=>$model->id])
+                                                                 ->andWhere(['>=','topic_end','UNIX_TIMESTAMP(CURDATE()']),
+                            'pagination' => [
+                               'pageSize' => 20,
+                           ],
+                       ]);        
+        }
+        return $this->render('view', ['model' => $model, 'comment' => $comment, 'postComment'=>$postComment, 'authorTopics'=>$authorTopics]);
     }
 
     /**
@@ -114,7 +129,7 @@ class TopicController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             $model->topic_end=Yii::$app->formatter->asDate($model->topic_end, "yyyy-MM-dd");
             return $this->render('update', [
