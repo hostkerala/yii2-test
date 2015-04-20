@@ -128,59 +128,16 @@ class User extends BaseUser
     {
         return $this->hasOne(Profile::className(), ['user_id' => 'id']);
     }
-    
-    
-    public function saveUserSkills()
+
+    public function getUserSkillsString()
     {
-            $skillsToDb = array();
-            $skills = explode(',', $this->skills);
-
-
+            $skills = $this->userSkills;
+            $result = array();
             foreach ($skills as $skill) {
-                    $skill = trim(mb_strtolower($skill, 'utf-8'));
-                    if ($skill == '') {
-                            continue;
-                    }
-                    $skillsToDb[] = $skill;
+                    $result[] = $skill['name'];
             }
-
-            
-            $query = new Query;
-            $query->select('*')
-                  ->distinct(true)
-                  ->buildInCondition('IN',['name'=>$skillsToDb]);
-            $command = $query->createCommand();
-            $sql = $command->sql;
-            
-            $models = common/models/Skill::findBySql($sql->all());
-
-            $skillIdList = array();
-            foreach ($models as $model) {
-                    $skillIdList[] = $model->id;
-                    unset($skillsToDb[array_search($model->name, $skillsToDb)]);
-            }
-
-            $sql = "DELETE FROM rel_user_skills WHERE user_id = $this->id ";
-            $command = Yii::$app->db->createCommand($sql);
-            $command->bindValue(":user", $this->id, PDO::PARAM_INT);
-            $command->execute();
-
-
-            foreach ($skillsToDb as $skill) {
-                    $model = new Skill;
-                    $model->name = $skill;
-                    if ($model->save()) {
-                            $skillIdList[] = $model->id;
-                    }
-            }
-            foreach ($skillIdList as $skillId) {
-                    $sql = "INSERT INTO  rel_user_skills (user_id, skill_id) VALUES (:user, :skill)";
-                    $command = Yii::$app->db->createCommand($sql);
-                    $command->bindValue(":user", $this->id, PDO::PARAM_INT);
-                    $command->bindValue(":skill", $skillId, PDO::PARAM_INT);
-                    $command->execute();
-            }
-    }
+            return implode(',', $result);
+    } 
     
     /**
      * get User skills
@@ -200,35 +157,5 @@ class User extends BaseUser
         // $command->sql returns the actual SQL
         //$rows = $command->queryAll();
         return $tags;
-    }
-
-    /**
-     * get User skills
-     * @return string
-     */
-    public function getUserSkillsString()
-    {
-            $skills = $this->userSkills;
-            $result = array();
-            foreach ($skills as $skill) {
-                    $result[] = $skill['name'];
-            }
-            return implode(',', $result);
-    }   
-    
-    /**
-     * @return boolean
-     */
-    public function beforeSave($insert)
-    {
-        if (parent::beforeSave($insert)) {
-            if (!$this->isNewRecord)
-            {
-                 $this->saveUserSkills();             
-            }
-            return true;
-        } else {
-            return false;
-        }
     }
 }

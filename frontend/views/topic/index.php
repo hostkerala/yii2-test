@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'skills',
                 'value' => function ($model) {                      
-                    return $model->skills->name;
+                    return \common\models\Skill::getTopicSkill($model->id);
                 },                
                 'filter'=>Html::dropDownList('skills', null, ArrayHelper::map(common\models\Skill::find()->all(), 'id', 'name'),['prompt'=>'All','class'=>'form-control']),
                 'filterInputOptions' => ['class'=>'form-control'],  

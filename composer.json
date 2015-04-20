@@ -22,7 +22,8 @@
         "yiisoft/yii2-jui": "*",
         "kartik-v/yii2-widget-select2": "*",
         "2amigos/yii2-ckeditor-widget": "~1.0",
-	"yiidoc/yii2-timeago": "dev-master"
+	"yiidoc/yii2-timeago": "dev-master",
+        "kartik-v/yii2-widget-depdrop": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

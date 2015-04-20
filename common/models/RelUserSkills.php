@@ -41,4 +41,20 @@ class RelUserSkills extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
         ];
     }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSkill()
+    {
+        return $this->hasOne(Skill::className(), ['id' => 'skill_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }    
 }

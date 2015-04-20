@@ -7,6 +7,11 @@ return [
                'modelMap' => 
                 [
                     'User' => 'common\models\User',
+                    'SettingsForm' => 'common\models\SettingsForm',
+                    'Profile' => 'common\models\Profile',
+                ],
+                'controllerMap' => [
+                    'settings' => 'frontend\controllers\UserController'
                 ],
             'enableUnconfirmedLogin' => true,            
             'admins' => ['hostkerala'],
@@ -40,6 +45,17 @@ return [
             'enablePrettyUrl' => true,
             //'showScriptName' => false,
             'enableStrictParsing' => false,
-        ],       
-    ],
-];
+        ], 
+        
+        'view' => 
+            [
+            'theme' => 
+                [
+                'pathMap' => 
+                    [
+                        '@dektrium/user/views' => '@frontend/views/user'
+                    ],
+                ],
+            ],
+        ],
+    ];

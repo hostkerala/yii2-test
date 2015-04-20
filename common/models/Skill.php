@@ -117,6 +117,21 @@ class Skill extends \yii\db\ActiveRecord
     }    
     
     
+    public static function getUserSkill($user_id = '')
+    {
+            $str = null;
+            if (!empty($topic_id)) {
+
+                    $modeluserkills = RelUserSkills::find(['user_id' => $user_id])->all();
+                    if ($modeluserkills) {
+                        $arrayModels = \yii\helpers\ArrayHelper::map($modeluserkills, 'skill_id','skill.name'); //id = your ID model, name = your caption                          
+                        $str = implode(',', $arrayModels);
+                    }
+            }
+            return $str;
+    } 
+    
+    
     private static function countUsedSkill()
     {
             

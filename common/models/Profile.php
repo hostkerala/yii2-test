@@ -1,29 +1,22 @@
 <?php
-
 namespace common\models;
+use dektrium\user\models\Profile as BaseProfile;
+use yii\db\Query;
 
 use Yii;
 
-/**
- * This is the model class for table "profile".
- *
- * @property integer $user_id
- * @property string $name
- * @property string $public_email
- * @property string $gravatar_email
- * @property string $gravatar_id
- * @property string $location
- * @property string $website
- * @property string $bio
- */
 class Profile extends \yii\db\ActiveRecord
 {
+    
+    public $skills;
+    public $country_id;
+    
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'profile';
+        return 'user';
     }
 
     /**
@@ -32,11 +25,8 @@ class Profile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id'], 'required'],
-            [['user_id'], 'integer'],
-            [['bio'], 'string'],
-            [['name', 'public_email', 'gravatar_email', 'location', 'website'], 'string', 'max' => 255],
-            [['gravatar_id'], 'string', 'max' => 32]
+            [['username','state_id','city_id','country_id','email'], 'required'], 
+            [['skills'], 'safe'], 
         ];
     }
 
@@ -46,14 +36,86 @@ class Profile extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'user_id' => 'User ID',
-            'name' => 'Name',
-            'public_email' => 'Public Email',
-            'gravatar_email' => 'Gravatar Email',
-            'gravatar_id' => 'Gravatar ID',
-            'location' => 'Location',
-            'website' => 'Website',
-            'bio' => 'Bio',
+            'user_name' => 'Username',
+            'email' => 'Email',
+            'country_id' => 'Country',
+            'state_id' => 'State',
+            'city_id' => 'City',
+            'skills'=>'Select Skills',
         ];
     }
+    
+    public function saveUserSkills($skills,$user_id)
+    {
+        $arraySkills = explode(',', strtolower(strip_tags($this->skills)));
+        foreach ($arraySkills as $skill) {
+                $query = new Query;
+                $skillModel = $query->select("name")->from('skill')->where(['name'=>trim($skill)])->scalar();                  
+                if (!$skillModel) {
+                        $skillModel = new Skill();
+                        $skillModel->name = trim($skill);
+                        $skillModel->save();
+                }                     
+        }    
+        $sql = "DELETE FROM rel_user_skills WHERE user_id=$user_id";            
+        Yii::$app->db->createCommand($sql)->execute();
+
+        foreach ($arraySkills as $skill) {
+                $skillId = $query->select("id")->from('skill')->where(['name'=>trim($skill)])->scalar();                  
+                Yii::$app->db->createCommand()->insert('rel_user_skills',[
+                        'user_id' => $user_id,
+                        'skill_id' => $skillId,
+                ])->execute();                    
+        }
+    }
+    
+    /**
+     * get User skills
+     * @return array
+     */
+    
+    public static function getUserSkills($user_id = '')
+    {
+            $str = null;
+            if (!empty($user_id)) {
+
+                    $modeluserskills = RelUserSkills::find(['user_id' => $user_id])->all();
+                    if ($modeluserskills) {
+                        $arrayModels = \yii\helpers\ArrayHelper::map($modeluserskills, 'skill_id','skill.name'); //id = your ID model, name = your caption                          
+                        $str = implode(',', $arrayModels);
+                    }
+            }
+            return $str;
+    } 
+
+    /**
+     * get User skills
+     * @return string
+     */
+    public function getUserSkillsString()
+    {
+            $skills = $this->userSkills;
+            $result = array();
+            foreach ($skills as $skill) {
+                    $result[] = $skill['name'];
+            }
+            return implode(',', $result);
+    }   
+    
+    /**
+     * @return boolean
+     */
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if (!$this->isNewRecord)
+            {
+                $this->saveUserSkills($this->skills,yii::$app->user->id);             
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 }

@@ -63,11 +63,3 @@ use kartik\select2\Select2;
 
     <?php ActiveForm::end(); ?>
 </div>
-
-
-<?php
-//$topicSkills = common\models\Skill::getTopicSkill($model->id);
-//$this->registerJs("$(document).ready(function () {
-       // $('#Skills').val('$topicSkills');
-   // });");
-?>
