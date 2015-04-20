@@ -32,7 +32,7 @@ class TopicController extends Controller
                 ],
                 'rules' => [
                     [
-                        'actions' => ['index','view','create','update','delete'],
+                        'actions' => ['index','view','create','update','delete','list'],
                         'allow' => true,
                         'roles' => ['@','admin'],
                     ],
