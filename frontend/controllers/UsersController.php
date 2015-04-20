@@ -34,7 +34,6 @@ class UsersController extends Controller
     {
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);

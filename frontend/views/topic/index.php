@@ -44,9 +44,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'category_id',
                 'value' => function ($model) {                      
-                    return common\models\Categories::find(['id'=>$model->category_id])->one()->name;
+                    return common\models\Categories::find()->where(['id'=>$model->category_id])->one()->name;
                 },                
-                'filter'=>Html::dropDownList('TopicSearch[category_id]', null, ArrayHelper::map(common\models\Categories::find()->all(), 'id', 'name'),['prompt'=>'All','class'=>'form-control']),
+                'filter'=>Html::dropDownList('TopicSearch[category_id]', null, ArrayHelper::map(common\models\Categories::find()->asArray()->all(), 'id', 'name'),['prompt'=>'All','class'=>'form-control']),
                 'filterInputOptions' => ['class'=>'form-control'],  
             ],                          
             [
@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {                      
                     return \common\models\Skill::getTopicSkill($model->id);
                 },                
-                'filter'=>Html::dropDownList('skills', null, ArrayHelper::map(common\models\Skill::find()->all(), 'id', 'name'),['prompt'=>'All','class'=>'form-control']),
+                'filter'=>Html::dropDownList('skills', null, ArrayHelper::map(common\models\Skill::find()->asArray()->all(), 'id', 'name'),['prompt'=>'All','class'=>'form-control']),
                 'filterInputOptions' => ['class'=>'form-control'],  
             ],      
             [
