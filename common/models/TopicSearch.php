@@ -18,8 +18,8 @@ class TopicSearch extends Topic
     public function rules()
     {
         return [
-            [['created_at', 'title', 'content', 'thumbnail'], 'safe'],
-            [['topic_end', 'user_id', 'category_id', 'status', 'id'], 'integer'],
+            [['created_at','topic_end','skills','title', 'content', 'thumbnail'], 'safe'],
+            [['user_id', 'category_id', 'status', 'id'], 'integer'],
         ];
     }
 
@@ -41,6 +41,7 @@ class TopicSearch extends Topic
      */
     public function search($params)
     {
+       
         $query = Topic::find();
 
         $dataProvider = new ActiveDataProvider([
@@ -48,6 +49,11 @@ class TopicSearch extends Topic
         ]);
 
         $this->load($params);
+        
+       if($params['skills'])
+       {           
+           $this->skills = $params['skills'];
+       }
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to any records when validation fails
@@ -55,36 +61,21 @@ class TopicSearch extends Topic
             return $dataProvider;
         }
         
+        $query->joinWith('relTopicSkills');
+
         $query->andFilterWhere([
             'user_id' => $this->user_id,
             'category_id' => $this->category_id,
             'status' => $this->status,
-            'id' => $this->id,
-        ]);          
+            'skill_id'=>$this->skills,
+        ]);       
 
-        $query->andFilterWhere(['like', 'created_at', $this->dbDateSearch($this->created_at)]);
+        $query->andFilterWhere(["DATE_FORMAT( FROM_UNIXTIME(  `created_at` ) ,  '%m/%d/%Y' )"=>$this->created_at])
+                ->andFilterWhere(["DATE_FORMAT( FROM_UNIXTIME(`topic_end` ) ,  '%m/%d/%Y' )"=>$this->topic_end]);
 
-        
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'content', $this->content])
-            ->andFilterWhere(['like', 'thumbnail', $this->thumbnail]);        
-        
-        // date to search        
-        $date = DateTime::createFromFormat('Y-m-d',$this->topic_end );
-        $date->setTime(0,0,0);
-
-        // set lowest date value
-        $unixDateStart = $date->getTimeStamp();
-
-        // add 1 day and subtract 1 second
-        $date->add(new DateInterval('P1D'));
-        $date->sub(new DateInterval('PT1S'));
-
-        // set highest date value
-        $unixDateEnd = $date->getTimeStamp();
-
-        $query->andFilterWhere(
-            ['between', 'topic_end', $unixDateStart, $unixDateEnd]); 
+            ->andFilterWhere(['like', 'thumbnail', $this->thumbnail]);         
 
         return $dataProvider;
     }

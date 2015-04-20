@@ -43,7 +43,7 @@ class Topic extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['created_at'], 'safe'],
+            [['created_at','skills'], 'safe'],
             [['topic_end', 'user_id', 'category_id', 'title', 'content'], 'required'],
             [['user_id', 'category_id', 'status'], 'integer'],
             [['content'], 'string'],
