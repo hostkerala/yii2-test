@@ -80,7 +80,7 @@ class Skill extends \yii\db\ActiveRecord
     
     public static function addTags($skills, $topic_id)
     {
-        $arraySkills = explode(',', strtolower(strip_tags($skills)));
+        $arraySkills = array_filter(explode(',', strtolower(strip_tags($skills))));
         foreach ($arraySkills as $skill) {
                 $query = new Query;
                 $skillModel = $query->select("name")->from('skill')->where(['name'=>trim($skill)])->scalar();                  
@@ -100,6 +100,7 @@ class Skill extends \yii\db\ActiveRecord
                         'skill_id' => $skillId,
                 ])->execute();                    
         }
+        self::countUsedSkill();
     }    
     
     public static function getTopicSkill($topic_id = '')

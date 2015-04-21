@@ -53,8 +53,6 @@ class Profile extends \yii\db\ActiveRecord
     public function saveUserSkills($skills,$user_id)
     {
         $arraySkills = array_filter(explode(',', strtolower(strip_tags($this->skills))));
-        //print_r($arraySkills);
-        //print_r(array_filter($arraySkills));exit;
         foreach ($arraySkills as $skill) {
             $query = new Query;
             $skillModel = $query->select("name")->from('skill')->where(['name'=>trim($skill)])->scalar();                  
