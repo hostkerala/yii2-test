@@ -100,9 +100,7 @@ class TopicController extends Controller
                     ],
                 ],
             ],
-            'pagination' => [
-                'pageSize' => 20,
-            ],
+            'pagination' => false,
         ]);
 
         return $this->render('view', ['model' => $model, 'comment' => $comment, 'postComment'=>$postComment, 'authorTopics'=>$authorTopics]);
