@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\jui\DatePicker;
 use yii\helpers\ArrayHelper;
 use backend\models\Standard;
+use frontend\assets\AppAsset;
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\TopicSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -12,12 +13,10 @@ use backend\models\Standard;
 $this->title = 'Topics';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-
+<?php  AppAsset::register($this);  ?>
 <div class="topic-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <p>
         <?= Html::a('Post Topic', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
