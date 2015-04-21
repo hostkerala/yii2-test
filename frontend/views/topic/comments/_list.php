@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\base\Controller;
 use yii\timeago\TimeAgo;
+use yii\helpers\Url;
 
 date_default_timezone_set(yii::$app->params['timeZone']);
 ?>
