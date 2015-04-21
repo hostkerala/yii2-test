@@ -52,19 +52,20 @@ class Profile extends \yii\db\ActiveRecord
     
     public function saveUserSkills($skills,$user_id)
     {
-        $arraySkills = explode(',', strtolower(strip_tags($this->skills)));
+        $arraySkills = array_filter(explode(',', strtolower(strip_tags($this->skills))));
+        //print_r($arraySkills);
+        //print_r(array_filter($arraySkills));exit;
         foreach ($arraySkills as $skill) {
-                $query = new Query;
-                $skillModel = $query->select("name")->from('skill')->where(['name'=>trim($skill)])->scalar();                  
-                if (!$skillModel) {
-                        $skillModel = new Skill();
-                        $skillModel->name = trim($skill);
-                        $skillModel->save();
-                }                     
-        }    
+            $query = new Query;
+            $skillModel = $query->select("name")->from('skill')->where(['name'=>trim($skill)])->scalar();                  
+            if (!$skillModel) {
+                    $skillModel = new Skill();
+                    $skillModel->name = trim($skill);
+                    $skillModel->save();
+            }     
+        }  
         $sql = "DELETE FROM rel_user_skills WHERE user_id=$user_id";            
         Yii::$app->db->createCommand($sql)->execute();
-
         foreach ($arraySkills as $skill) {
                 $skillId = $query->select("id")->from('skill')->where(['name'=>trim($skill)])->scalar();                  
                 Yii::$app->db->createCommand()->insert('rel_user_skills',[
@@ -84,7 +85,7 @@ class Profile extends \yii\db\ActiveRecord
             $str = null;
             if (!empty($user_id)) {
 
-                    $modeluserskills = RelUserSkills::find(['user_id' => $user_id])->all();
+                    $modeluserskills = RelUserSkills::find()->where(['user_id' => $user_id])->all();
                     if ($modeluserskills) {
                         $arrayModels = \yii\helpers\ArrayHelper::map($modeluserskills, 'skill_id','skill.name'); //id = your ID model, name = your caption                          
                         $str = implode(',', $arrayModels);
