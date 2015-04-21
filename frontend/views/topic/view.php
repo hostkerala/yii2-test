@@ -41,11 +41,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <hr>
 <h2>Comments (<?php echo count($model->comments); ?>)</h2>
+
+<?php	if((((Yii::$app->user->id != $model->user_id) && ($postComment ))) || yii::$app->user->identity->isAdmin) { //Admin Have all Rights?>
+<?php	echo $this->render('comments/_form', array('model'=>$model, 'comment' => $comment)); ?>
+<?php   } ?>
 <div  id="comment-list">
-    <?php	if((((Yii::$app->user->id != $model->user_id) && ($postComment ))) || yii::$app->user->identity->isAdmin) { //Admin Have all Rights?>
-            <?php	echo $this->render('comments/_form', array('model'=>$model, 'comment' => $comment)); ?>
-    <?php   } ?>
-    <?php echo $this->render('comments/_list', array('model'=>$model)); ?>
+<?php echo $this->render('comments/_list', array('model'=>$model)); ?>
 </div>
 <?php if($authorTopics) : ?>
 <h2> Other My Topics ( <?php echo $authorTopics->getCount(); ?>)</h2>

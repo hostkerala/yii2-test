@@ -28,6 +28,3 @@ composer.phar
 phpunit.phar
 # local phpunit config
 /phpunit.xml
-*~
-frontend/web/uploads
-frontend/models/User_backup_deleted.php

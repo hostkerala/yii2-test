@@ -15,6 +15,7 @@ use yii\db\Query;
 use yii\data\ActiveDataProvider;
 use \yii\filters\AccessControl;
 use common\filters\AccessRules;
+use yii\data\SqlDataProvider;
 
 
 /**
@@ -80,17 +81,30 @@ class TopicController extends Controller
                         {
                                 $this->redirect(Url::to(['topic/view','id'=>$id]));
                         }
-                }        
-        $query = new Query;        
-        $authorTopics = new ActiveDataProvider([
-            'query' => $query->from('topic')->orderBy('id desc')->where(['user_id'=>$model->user_id])
-                                                                 ->andWhere(['<>','id'=>$model->id])
-                                                                 ->andWhere(['>=','topic_end','UNIX_TIMESTAMP(CURDATE()']),
-                            'pagination' => [
-                               'pageSize' => 20,
-                           ],
-                       ]);        
+                }  
         }
+        
+        
+        $sql = "SELECT * FROM topic WHERE user_id = :user_id AND id <> :id AND topic_end >= UNIX_TIMESTAMP(CURDATE())";
+        
+        $count = Yii::$app->db->createCommand($sql,[':user_id'=>$model->user_id,':id'=>$model->id])->queryScalar();
+        
+        $authorTopics = new SqlDataProvider([
+            'sql' => $sql,
+            'params' => [':user_id'=>$model->user_id,':id'=>$model->id],
+            'totalCount' => $count,
+            'sort' => [
+                'attributes' => [
+                    'name' => [
+                        'desc' => ['id' => SORT_DESC],
+                    ],
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+        ]);
+
         return $this->render('view', ['model' => $model, 'comment' => $comment, 'postComment'=>$postComment, 'authorTopics'=>$authorTopics]);
     }
 
