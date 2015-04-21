@@ -125,18 +125,11 @@ class Profile extends \yii\db\ActiveRecord
     
     public function getDisplayImage() 
     {
-        $model= \common\models\User::find(['id'=>yii::$app->user->id])->one();
+        $model= \common\models\Profile::find()->where(['id'=>yii::$app->user->id])->one();
         
         if (empty($model->avatar)) {
             // if you do not want a placeholder
             $image = null;
-            // else if you want to display a placeholder
-//            $image = Html::img(self::IMAGE_PLACEHOLDER, [
-//                'alt'=>Yii::t('app', 'No avatar yet'),
-//                'title'=>Yii::t('app', 'Upload your avatar by selecting browse below'),
-//                'class'=>'img-thumbnail'
-//                // add a CSS class to make your image styling consistent
-//            ]);
         }
         else {
             $image = Html::img(Yii::$app->urlManager->baseUrl . '/uploads/' . $model->avatar, [

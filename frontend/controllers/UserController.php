@@ -39,7 +39,7 @@ class UserController extends BaseSettingsController
     
     public function actionProfile()
     {
-        $model = Profile::find(Yii::$app->user->identity->getId())->one();
+        $model = Profile::find()->where(['id'=>Yii::$app->user->id])->one();
 
         $this->performAjaxValidation($model);
         
@@ -138,7 +138,7 @@ class UserController extends BaseSettingsController
     
     public function actionRemove($id) 
     {       
-        $model = \common\models\Profile::find(['id'=>$id])->one();        
+        $model = \common\models\Profile::find()->where(['id'=>$id])->one();        
         $image = Yii::$app->params['uploadPath'].$model->avatar;
         if (unlink($image)) {
             $model->avatar = null;

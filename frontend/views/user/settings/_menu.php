@@ -20,7 +20,7 @@ $networksVisible = count(Yii::$app->authClientCollection->clients) > 0;
     <div class="panel-heading">
         <h3 class="panel-title">
             <?php
-            $user = common\models\Profile::find(['id'=>yii::$app->user->id])->one();
+            $user = common\models\Profile::find()->where(['id'=>yii::$app->user->id])->one();
             ?>
             <?php if($user->avatar):  ?>
                 <img src="<?= Yii::$app->urlManager->baseUrl . '/uploads/'.$user->avatar ?>" class="img-rounded" alt="<?= Yii::$app->urlManager->baseUrl . '/uploads/'.$user->avatar ?>" height="25" width="25"/>

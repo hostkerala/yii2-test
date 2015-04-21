@@ -29,9 +29,9 @@ return [
             'class' => 'yii\authclient\Collection',
             'clients' => [
                 'google' => [
-                    'class' => 'yii\authclient\clients\GoogleOpenId',
-                    //'clientId' => '180785155645-b0ov8gh9j4mddir33nkdfg0tf2mpmdic.apps.googleusercontent.com',
-                    //'clientSecret' => 'A7PdKXSl__XqdZM6AfYNVzmF',                    
+                    'class' => 'yii\authclient\clients\GoogleOAuth',
+                    'clientId' => '180785155645-b0ov8gh9j4mddir33nkdfg0tf2mpmdic.apps.googleusercontent.com',
+                    'clientSecret' => 'A7PdKXSl__XqdZM6AfYNVzmF',
                 ],
                 'facebook' => [
                     'class' => 'yii\authclient\clients\Facebook',

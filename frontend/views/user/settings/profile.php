@@ -67,7 +67,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php 
                 // profile.php
                 // display your image or a placeholder first
-
                 if (empty($model->avatar)) {
                     echo $form->field($model, 'avatar')->widget(FileInput::classname(), [
                         'options' => ['accept' => 'image/*','showUpload' => false,],
