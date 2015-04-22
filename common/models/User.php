@@ -51,9 +51,7 @@ use Yii;
  */
 class User extends BaseUser
 {
-    
-    public $role;
-    
+   
     /**
      * @inheritdoc
      */
