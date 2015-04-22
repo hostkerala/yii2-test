@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use dosamigos\ckeditor\CKEditor;
+
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Pages */
@@ -13,8 +15,10 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
-
-    <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'content')->widget(CKEditor::className(), [
+        'options' => ['rows' => 6],
+        'preset' => 'basic'
+    ]) ?>
     <?php    
        echo $form->field($model, 'status')->dropDownList(
        [0=>'Draft',1=>'Published']
