@@ -12,6 +12,7 @@ use yii\db\ActiveRecord;
 use yii\log\Logger;
 use yii\db\Query;
 use yii\web\IdentityInterface;
+use yii\helpers\ArrayHelper;
 
 use dektrium\user\models\User as BaseUser;
 
@@ -50,6 +51,9 @@ use Yii;
  */
 class User extends BaseUser
 {
+    
+    public $role;
+    
     /**
      * @inheritdoc
      */
@@ -218,5 +222,22 @@ class User extends BaseUser
         \Yii::getLogger()->log('An error occurred while creating user account', Logger::LEVEL_ERROR);
 
         return false;
-    }    
+    }  
+    
+    /**
+    * @return admin users array
+    */
+    public function getAdmins()
+    {  
+        return ArrayHelper::getColumn($this->find()->select('username')->where(['role'=>1])->asArray()->all(), 'username', false);
+    }
+    
+    /**
+     * @return bool Whether the user is an admin or not.
+     */
+    public function getIsAdmin()
+    {
+         return in_array($this->username, $this->admins);
+    }
+    
 }

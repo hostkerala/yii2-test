@@ -15,7 +15,6 @@ return [
                     'admin' => 'backend\controllers\AdminController'
                 ],
             'enableUnconfirmedLogin' => true,            
-            'admins' => ['admin'],
             'enableFlashMessages' => false,               
             
         ],
