@@ -91,9 +91,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 ?>
                 <?php
                 
+                $state_default = [12 => 'Kerala']; 
+                
+                if($model->state->id)
+                {
+                    
+                    $state_default=[];
+                    $state_default[$model->state->id] = $model->state->state_name_en;
+                }                
+                
                 // States
                 echo $form->field($model, 'state_id')->widget(DepDrop::classname(), [
-                    'data' => [12 => 'Kerala'], // ensure at least the preselected value is available
+                    'data' => $state_default, // ensure at least the preselected value is available
                     'pluginOptions'=>[
                         'depends'=>[Html::getInputId($model, 'country_id')], // the id for cat attribute
                         'placeholder'=>'Select State',
@@ -103,9 +112,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 ?>
                 
                 <?php
+                
+                $city_default = ['6' => 'Kasargod'];
+                
+                if($model->city->id)
+                {
+                    
+                    $city_default=[];
+                    $city_default[$model->city->id] = $model->city->city;
+                }    
+                
                 // Cities
                 echo $form->field($model, 'city_id')->widget(DepDrop::classname(), [
-                    'data' => ['6' => 'Kasargod'], // ensure at least the preselected value is available
+                    'data' => $city_default, // ensure at least the preselected value is available
                     'pluginOptions'=>[
                         'depends'=>[
                             Html::getInputId($model, 'country_id'), 

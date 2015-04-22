@@ -51,7 +51,7 @@ class UserController extends BaseSettingsController
             {
                     $model->avatar = yii::$app->user->id.".jpg";
             }
-            
+                  
             if($model->save()) 
             {         
                 if(isset($file->name))

@@ -143,4 +143,21 @@ class Profile extends \yii\db\ActiveRecord
         return ($image == null) ? null : 
             Html::tag('div', $image, ['class' => 'file-preview-frame']); 
     }    
+    
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getState()
+    {
+        return $this->hasOne(States::className(), ['id' => 'state_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCity()
+    {
+        return $this->hasOne(Zipareas::className(), ['id' => 'city_id']);
+    }    
 }
