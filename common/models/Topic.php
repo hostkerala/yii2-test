@@ -153,5 +153,9 @@ class Topic extends \yii\db\ActiveRecord
             return false;
         }
     }
+    public function getSortedComments()
+    {
+      return $this->hasMany(Comments::className(), ['topicId' => 'id'])->orderBy(['comments.id'=>SORT_DESC]);
+    }
    
 }

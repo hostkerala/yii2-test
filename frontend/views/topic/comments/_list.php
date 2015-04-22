@@ -7,7 +7,7 @@ use yii\timeago\TimeAgo;
 use yii\helpers\Url;
 ?>
 <hr />
-<?php foreach($model->comments as $comment): ?>  
+<?php foreach($model->sortedComments as $comment): ?>  
     <div class="media">
         <?php $country = $comment->user->state->country;   ?>
         <div class="media-left">
