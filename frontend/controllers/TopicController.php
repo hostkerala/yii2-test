@@ -191,8 +191,8 @@ class TopicController extends Controller
     */
     public function actionList($id)
     {
-            $model = $this->findModel($id);
-            echo $this->renderPartial('comments/_list', array('model'=>$model));
+            $model = \common\models\Topic::find()->where(['id'=>$id])->one();
+            echo $this->renderAjax('comments/_list',['model'=>$model]);
             yii::$app->end();
 
     }    
