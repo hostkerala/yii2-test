@@ -84,6 +84,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 ?>
                 
                 <?php
+                    
+                $model->country_id = 11; //Default country id (INDIA) - When edit the country first time.
+                
+                if($model->state->country->id)
+                {
+                    $model->country_id = $model->state->country->id;
+                }
+                
                     $dataCountry=ArrayHelper::map(\common\models\Countries::find()->asArray()->all(), 'id', 'country_name_en');
                     echo $form->field($model, 'country_id')->dropDownList(
                         $dataCountry       
@@ -105,7 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'data' => $state_default, // ensure at least the preselected value is available
                     'pluginOptions'=>[
                         'depends'=>[Html::getInputId($model, 'country_id')], // the id for cat attribute
-                        'placeholder'=>'Select State',
+                        'placeholder'=>'-Select State-',
                         'url'=>Url::to(['/user/settings/states'])
                     ]
                 ]);
@@ -130,7 +138,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             Html::getInputId($model, 'country_id'), 
                             Html::getInputId($model, 'state_id'), 
                         ],
-                        'placeholder'=>'Select Cities..',
+                        'placeholder'=>'-Select Citiy-',
                         'url'=>Url::to(['/user/settings/city']),
                         'initialize'=>true
                     ]

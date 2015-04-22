@@ -108,7 +108,7 @@ class UserController extends BaseSettingsController
                     $result[] = ['id'=>$city->id,'name'=>$city->city]; 
                     endforeach;
                 }
-               echo Json::encode(['output'=>$result, 'selected'=>'selected']);
+               echo Json::encode(['output'=>$result, 'selected'=>'']);
                return;
             }
         }
