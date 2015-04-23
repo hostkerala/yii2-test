@@ -44,7 +44,7 @@ class UserController extends BaseSettingsController
         $this->performAjaxValidation($model);
         
         if ($model->load(Yii::$app->request->post()))
-        {
+        {           
             $file = \yii\web\UploadedFile::getInstanceByName('Profile[avatar]');
             
             if(isset($file->name))
@@ -138,7 +138,8 @@ class UserController extends BaseSettingsController
     
     public function actionRemove($id) 
     {       
-        $model = \common\models\Profile::find()->where(['id'=>$id])->one();        
+        $model = Profile::find()->where(['id'=>Yii::$app->user->id])->one();
+        $model->skills = $model->getUserSkills(Yii::$app->user->id);
         $image = Yii::$app->params['uploadPath'].$model->avatar;
         if (unlink($image)) {
             $model->avatar = null;

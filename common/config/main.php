@@ -14,7 +14,7 @@ return [
                     'settings' => 'frontend\controllers\UserController',
                     'admin' => 'backend\controllers\AdminController'
                 ],
-            'enableUnconfirmedLogin' => true,            
+            //'enableUnconfirmedLogin' => true,            
             'enableFlashMessages' => false,               
             
         ],
