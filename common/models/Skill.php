@@ -1,5 +1,11 @@
 <?php
 
+/**
+* Created By Roopan v v <yiioverflow@gmail.com>
+* Date : 24-04-2015
+* Time :3:00 PM
+*/
+
 namespace common\models;
 use yii\helpers\ArrayHelper;
 use yii\db\Query;
@@ -78,6 +84,13 @@ class Skill extends \yii\db\ActiveRecord
             return [];
     }
     
+    /**
+    * Created By Roopan v v <yiioverflow@gmail.com>
+    * Date : 24-04-2015
+    * Time :3:00 PM
+    * Saving the Skills
+    */
+    
     public static function addTags($skills, $topic_id)
     {
         $arraySkills = array_filter(explode(',', strtolower(strip_tags($skills))));
@@ -103,6 +116,13 @@ class Skill extends \yii\db\ActiveRecord
         self::countUsedSkill();
     }    
     
+    /**
+    * Created By Roopan v v <yiioverflow@gmail.com>
+    * Date : 24-04-2015
+    * Time :3:00 PM
+    * Returns the Skill string for a specific topic
+    */
+    
     public static function getTopicSkill($topic_id = '')
     {
             $str = null;
@@ -117,6 +137,12 @@ class Skill extends \yii\db\ActiveRecord
             return $str;
     }    
     
+    /**
+    * Created By Roopan v v <yiioverflow@gmail.com>
+    * Date : 24-04-2015
+    * Time :3:00 PM
+    * Return  Skills for specific user
+    */
     
     public static function getUserSkill($user_id = '')
     {
@@ -132,6 +158,12 @@ class Skill extends \yii\db\ActiveRecord
             return $str;
     } 
     
+    /**
+    * Created By Roopan v v <yiioverflow@gmail.com>
+    * Date : 24-04-2015
+    * Time :3:00 PM
+    * Updates the counter field in the Skill table accordin to the usage in Topics.
+    */
     
     private static function countUsedSkill()
     {

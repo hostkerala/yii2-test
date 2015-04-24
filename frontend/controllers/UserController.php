@@ -37,6 +37,14 @@ class UserController extends BaseSettingsController
         ];                
     }
     
+    
+    /**
+     * Created By Roopan v v <yiioverflow@gmail.com>
+     * Date : 24-04-2015
+     * Time :3:00 PM
+     * Displays the user profile page.
+     */
+    
     public function actionProfile()
     {
         $model = Profile::find()->where(['id'=>Yii::$app->user->id])->one();
@@ -70,6 +78,13 @@ class UserController extends BaseSettingsController
         ]);
     }
     
+     /**
+     * Created By Roopan v v <yiioverflow@gmail.com>
+     * Date : 24-04-2015
+     * Time :3:00 PM
+     * Returns the states dropdown data for profile page.
+     */
+    
     public function actionStates()
     {
         $out = [];
@@ -92,6 +107,14 @@ class UserController extends BaseSettingsController
         }
         echo Json::encode(['output'=>'', 'selected'=>'']);
     }
+    
+    
+     /**
+     * Created By Roopan v v <yiioverflow@gmail.com>
+     * Date : 24-04-2015
+     * Time :3:00 PM
+     * Returns the cities dropdown data for profile page.
+     */
     
     public function actionCity()
     {
@@ -135,6 +158,14 @@ class UserController extends BaseSettingsController
             'model' => $model,
         ]);
     }    
+    
+    
+     /**
+     * Created By Roopan v v <yiioverflow@gmail.com>
+     * Date : 24-04-2015
+     * Time :3:00 PM
+     * Removes the profile picture
+     */
     
     public function actionRemove($id) 
     {       

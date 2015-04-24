@@ -59,34 +59,28 @@ echo Select2::widget([
 </div>
  
  
- <?php  $users = $dataProvider->getModels(); 
+ <?php  $users = $dataProvider->getModels();  ?>
  
- foreach($users as $user)
- {
-     ?>
-     
- <table class="table table-bordered table-striped">
-     <tr>
-         <th class="col-md-6">Username</th>
-         <td class="col-md-6"><?= $user->username ?></td>
-     </tr>
-     <tr>
-         <th class="col-md-6">State</th>
-         <td class="col-md-6"><?= $user->state->state_name_en  ? $user->state->state_name_en:'Not set' ?></td>
-     </tr>
-          <tr>
-         <th class="col-md-6">City</th>
-         <td class="col-md-6"><?= $user->city->city ? $user->city->city   :'Not set'?></td>
-     </tr>
-          <tr>
-         <th class="col-md-6">Skills</th>
-         <td class="col-md-6"><?= $user->userSkillsString ? $user->userSkillsString: 'Not set' ?></td>
-     </tr>
- </table>
+<?php foreach($users as $user) : ?>
  
- <?php   
- }
- 
- 
- ?>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th class="col-md-6">Username</th>
+        <td class="col-md-6"><?= $user->username ?></td>
+    </tr>
+    <tr>
+        <th class="col-md-6">State</th>
+        <td class="col-md-6"><?= $user->state->state_name_en  ? $user->state->state_name_en:'Not set' ?></td>
+    </tr>
+         <tr>
+        <th class="col-md-6">City</th>
+        <td class="col-md-6"><?= $user->city->city ? $user->city->city   :'Not set'?></td>
+    </tr>
+         <tr>
+        <th class="col-md-6">Skills</th>
+        <td class="col-md-6"><?= $user->userSkillsString ? $user->userSkillsString: 'Not set' ?></td>
+    </tr>
+</table>
+
+<?php endforeach; ?>
 

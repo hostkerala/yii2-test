@@ -63,10 +63,11 @@ class TopicController extends Controller
     }
 
     /**
-     * Displays a single Topic model.
-     * @param integer $id
-     * @return mixed
-     */
+    * Created By Roopan v v <yiioverflow@gmail.com>
+    * Date : 24-04-2015
+    * Time :3:00 PM
+    * Displays Single topic and comments page
+    */
     public function actionView($id)
     {   
         $comment = new \common\models\Comments;
@@ -107,6 +108,9 @@ class TopicController extends Controller
     }
 
     /**
+     * Created By Roopan v v <yiioverflow@gmail.com>
+     * Date : 24-04-2015
+     * Time :3:00 PM
      * Creates a new Topic model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -129,6 +133,9 @@ class TopicController extends Controller
     }
 
     /**
+     * Created By Roopan v v <yiioverflow@gmail.com>
+     * Date : 24-04-2015
+     * Time :3:00 PM
      * Updates an existing Topic model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -151,6 +158,9 @@ class TopicController extends Controller
     }
 
     /**
+     * Created By Roopan v v <yiioverflow@gmail.com>
+     * Date : 24-04-2015
+     * Time :3:00 PM
      * Deletes an existing Topic model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -163,6 +173,11 @@ class TopicController extends Controller
         foreach($topic->comments as $comments)
         {
             $comments->delete();
+        }
+        
+        foreach($topic->relTopicSkills as $skills)
+        {
+            $skills->delete();
         }
         
         $topic->delete();
@@ -186,11 +201,11 @@ class TopicController extends Controller
     }
     
     /**
-    * Created By Roopan v v <yiioverflow@gmail.com>
-    * Date : 03-04-2015
-    * Time :10:00 PM
-    * Ajaxt Function which updates the comments list in a specific time interval
-    */
+     * Created By Roopan v v <yiioverflow@gmail.com>
+     * Date : 24-04-2015
+     * Time :3:00 PM
+     * Ajaxt Function which updates the comments list in a specific time interval
+     */
     public function actionList($id)
     {
             $model = \common\models\Topic::find()->where(['id'=>$id])->one();

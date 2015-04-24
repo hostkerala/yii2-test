@@ -1,4 +1,11 @@
 <?php
+
+/**
+* Created By Roopan v v <yiioverflow@gmail.com>
+* Date : 24-04-2015
+* Time :3:00 PM
+*/
+
 namespace frontend\controllers;
 
 use Yii;
@@ -173,8 +180,11 @@ class SiteController extends Controller
     }
     
     /**
-     * List users
-     */
+    * Created By Roopan v v <yiioverflow@gmail.com>
+    * Date : 24-04-2015
+    * Time :3:00 PM
+    * Lists all users
+    */
     public function actionUsers()
     {  
         $query = \common\models\User::find();        
@@ -193,8 +203,12 @@ class SiteController extends Controller
     }
     
     /**
-     * Autocomplete suggest options
-     */
+    * Created By Roopan v v <yiioverflow@gmail.com>
+    * Date : 24-04-2015
+    * Time :3:00 PM
+    * Autocomplete suggest options
+    */
+
     public function actionSkills()
     {         
         $result = [];

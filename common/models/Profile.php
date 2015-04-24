@@ -1,4 +1,11 @@
 <?php
+
+/**
+* Created By Roopan v v <yiioverflow@gmail.com>
+* Date : 24-04-2015
+* Time :3:00 PM
+*/
+
 namespace common\models;
 use yii\db\Query;
 
@@ -50,6 +57,12 @@ class Profile extends \yii\db\ActiveRecord
         ];
     }
     
+    /**
+    * Created By Roopan v v <yiioverflow@gmail.com>
+    * Date : 24-04-2015
+    * Time :3:00 PM
+    * Saves user Skills
+    */
     public function saveUserSkills($skills,$user_id)
     {
         $arraySkills = array_filter(explode(',', strtolower(strip_tags($this->skills))));
@@ -107,8 +120,12 @@ class Profile extends \yii\db\ActiveRecord
     }   
     
     /**
-     * @return boolean
-     */
+    * Created By Roopan v v <yiioverflow@gmail.com>
+    * Date : 24-04-2015
+    * Time :3:00 PM
+    * Saving the  user Skills first before saving the Profile model
+    * @return boolean
+    */
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
@@ -121,6 +138,13 @@ class Profile extends \yii\db\ActiveRecord
             return false;
         }
     }
+    
+    /**
+    * Created By Roopan v v <yiioverflow@gmail.com>
+    * Date : 24-04-2015
+    * Time :3:00 PM
+    * Returns the Profile image to display in the profile page
+    */
     
     public function getDisplayImage() 
     {

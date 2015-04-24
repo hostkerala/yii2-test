@@ -1,5 +1,11 @@
 <?php
 
+/**
+* Created By Roopan v v <yiioverflow@gmail.com>
+* Date : 24-04-2015
+* Time :3:00 PM
+*/
+
 namespace common\models;
 
 use Yii;
@@ -111,6 +117,13 @@ class Topic extends \yii\db\ActiveRecord
         return $this->hasMany(Skill::className(), ['id' => 'skill_id'])->viaTable('rel_topic_skills', ['topic_id' => 'id']);
     }
     
+    /**
+    * Created By Roopan v v <yiioverflow@gmail.com>
+    * Date : 24-04-2015
+    * Time :3:00 PM
+    * Changing the format of topic_end, setting the created_at if new record.
+    */
+    
     public function beforeSave($insert)
     {
         if ($this->isNewRecord)
@@ -123,6 +136,12 @@ class Topic extends \yii\db\ActiveRecord
         return parent::beforeSave($insert);
     }
     
+    /**
+    * Created By Roopan v v <yiioverflow@gmail.com>
+    * Date : 24-04-2015
+    * Time :3:00 PM
+    * After saving the Topics saving Skills of the specific topic
+    */
     
     public function afterSave($insert, $changedAttributes)
     {
@@ -153,6 +172,14 @@ class Topic extends \yii\db\ActiveRecord
             return false;
         }
     }
+    
+    /**
+    * Created By Roopan v v <yiioverflow@gmail.com>
+    * Date : 24-04-2015
+    * Time :3:00 PM
+    * Returns the Comments sorted order (DESC).
+    */
+    
     public function getSortedComments()
     {
       return $this->hasMany(Comments::className(), ['topicId' => 'id'])->orderBy(['comments.id'=>SORT_DESC]);
