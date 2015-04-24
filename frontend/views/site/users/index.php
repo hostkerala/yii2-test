@@ -54,11 +54,39 @@ echo Select2::widget([
  Specialization: <?php echo Yii::$app->request->get('skill') ? \common\models\Skill::find()->where(['id'=>Yii::$app->request->get('skill')])->one()->name : 'All'; ?>
 <div class="user-index">
     <h1><?= $this->title ?></h1>
-    <?= ListView::widget([
-        'dataProvider' => $dataProvider,
-        'itemOptions' => ['class' => 'item'],
-        'itemView' => '_view'
-    ]) ?>
+
 
 </div>
+ 
+ 
+ <?php  $users = $dataProvider->getModels(); 
+ 
+ foreach($users as $user)
+ {
+     ?>
+     
+ <table class="table table-bordered table-striped">
+     <tr>
+         <th class="col-md-6">Username</th>
+         <td class="col-md-6"><?= $user->username ?></td>
+     </tr>
+     <tr>
+         <th class="col-md-6">State</th>
+         <td class="col-md-6"><?= $user->state->state_name_en  ? $user->state->state_name_en:'Not set' ?></td>
+     </tr>
+          <tr>
+         <th class="col-md-6">City</th>
+         <td class="col-md-6"><?= $user->city->city ? $user->city->city   :'Not set'?></td>
+     </tr>
+          <tr>
+         <th class="col-md-6">Skills</th>
+         <td class="col-md-6"><?= $user->userSkillsString ? $user->userSkillsString: 'Not set' ?></td>
+     </tr>
+ </table>
+ 
+ <?php   
+ }
+ 
+ 
+ ?>
 

@@ -180,9 +180,7 @@ class SiteController extends Controller
         $query = \common\models\User::find();        
         $dataProvider = new ActiveDataProvider([
                                 'query' =>$query,
-                                'pagination' => [
-                                    'pageSize' => 2,
-                                ]
+                                'pagination' => false
                         ]);
         if (Yii::$app->request->get('skill')) {
                 $skill = \common\models\Skill::find()->where(['id' => Yii::$app->request->get('skill')])->one();
