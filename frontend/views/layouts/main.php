@@ -69,10 +69,10 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-        <?php if(yii::$app->user->id): ?>
+        <?php if(yii::$app->user->id && (Yii::$app->controller->action->id != 'confirm') && (Yii::$app->controller->action->id != 'resend')): ?>
         <div class="btn-group" role="group" aria-label="...">
-            <a href=<?= Url::to(['/site/users']);  ?>><button type="button" class="btn btn-primary">Users</button></a>
-            <a href=<?= Url::to(['/topic/index']);  ?>><button type="button" class="btn btn-default">Topics</button></a>            
+            <a href=<?= Url::to(['/site/users']);  ?>><button type="button" class="btn btn-lg btn-primary">Users</button></a>
+            <a href=<?= Url::to(['/topic/index']);  ?>><button type="button" class="btn btn-lg btn-info">Topics</button></a>            
         </div>
         <?php endif; ?>
         <?= $content ?>

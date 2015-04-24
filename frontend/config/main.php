@@ -17,11 +17,11 @@ return [
             'class' => 'yii\web\urlManager',
             'baseUrl' => '/backend/web',
             'enablePrettyUrl' => true,
-            'showScriptName' => false,
-                    'class' => 'yii\web\UrlManager',
+            'showScriptName' => false,                
             'rules' => [
                 'site/index' => 'site/users',
-            ]
+                '<controller>/<action>/<id:\d+>' => '<controller>/<action>',
+             ],
         ],         
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

@@ -142,7 +142,7 @@ class Topic extends \yii\db\ActiveRecord
     
     public static function isAuthor($topicId)
     {            
-       $topic = Topic::find(['id'=>$topicId])->one();
+       $topic = Topic::find()->where(['id'=>$topicId])->one();
        
         if($topic->user_id == yii::$app->user->id)
         {

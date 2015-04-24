@@ -17,9 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="topic-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <p>
-        <?= Html::a('Post Topic', ['create'], ['class' => 'btn btn-success']) ?>
+    <p class="pull-right">
+        <?= Html::a('Post Topic', ['create'], ['class' => 'btn btn-lg btn-success']) ?>
     </p>
+    <br />
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

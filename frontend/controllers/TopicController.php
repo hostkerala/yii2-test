@@ -139,7 +139,9 @@ class TopicController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         } else {
             $model->topic_end=Yii::$app->formatter->asDate($model->topic_end, "yyyy-MM-dd");
             return $this->render('update', [

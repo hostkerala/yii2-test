@@ -13,6 +13,7 @@ use yii\grid\GridView;
     
     <?= GridView::widget([
         'dataProvider' => $authorTopics,
+        'summary'=>"",
         //'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],

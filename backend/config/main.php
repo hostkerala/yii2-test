@@ -17,7 +17,10 @@ return [
             'class' => 'yii\web\urlManager',
             'baseUrl' => '/frontend/web',
             'enablePrettyUrl' => true,
-            'showScriptName' => false,
+            'showScriptName' => false,                    
+            'rules' => [
+                '<controller>/<action>/<id:\d+>' => '<controller>/<action>',
+             ],
         ],        
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

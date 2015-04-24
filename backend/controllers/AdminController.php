@@ -92,18 +92,17 @@ class AdminController extends BaseAdminController
                 {
                     $relSkills->delete();
                 }
-            }
-            
+            }            
            
-            $userTopics = \common\models\Topic::find()->where(['user_id'=>$id])->All();            
+            $userTopics = \common\models\Topic::find()->where(['user_id'=>$id])->all();
             if($userTopics)
             {
                 foreach($userTopics as $topic)
                 {
-                    Yii::$app->db->createCommand("DELETE from rel_topic_skills where topic_id = $topic->id")->execute();
-                    Yii::$app->db->createCommand("DELETE from comments where topicId = $topic->id")->execute();
+                    Yii::$app->db->createCommand("DELETE from rel_topic_skills where topic_id = :topic_id")->bindValues([':topic_id'=>$topic->id])->execute();
+                    Yii::$app->db->createCommand("DELETE from comments where topicId = :topic_id")->bindValues([':topic_id'=>$topic->id])->execute();
                 }                
-                Yii::$app->db->createCommand("DELETE from topic where user_id = $id")->execute();
+                Yii::$app->db->createCommand("DELETE from topic where user_id = :user_id")->bindValues([':user_id'=>$id])->execute();
             }
             
             $model->delete();
