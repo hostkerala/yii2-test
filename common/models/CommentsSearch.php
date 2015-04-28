@@ -1,11 +1,5 @@
 <?php
 
-/**
-* Created By Roopan v v <yiioverflow@gmail.com>
-* Date : 24-04-2015
-* Time :3:00 PM
-*/
-
 namespace common\models;
 
 use Yii;
@@ -14,8 +8,13 @@ use yii\data\ActiveDataProvider;
 use common\models\Comments;
 
 /**
- * CommentsSearch represents the model behind the search form about `\common\models\Comments`.
+ * 
+ * Created By Roopan v v <yiioverflow@gmail.com>
+ * Date : 24-04-2015
+ * Time :3:00 PM
+ *CommentsSearch represents the model behind the search form about `\common\models\Comments`.
  */
+
 class CommentsSearch extends Comments
 {
     /**

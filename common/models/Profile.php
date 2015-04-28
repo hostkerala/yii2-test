@@ -1,16 +1,17 @@
 <?php
 
+namespace common\models;
+use yii\db\Query;
+
+use Yii;
+use yii\helpers\Html;
+
 /**
 * Created By Roopan v v <yiioverflow@gmail.com>
 * Date : 24-04-2015
 * Time :3:00 PM
 */
 
-namespace common\models;
-use yii\db\Query;
-
-use Yii;
-use yii\helpers\Html;
 
 class Profile extends \yii\db\ActiveRecord
 {
@@ -66,23 +67,40 @@ class Profile extends \yii\db\ActiveRecord
     public function saveUserSkills($skills,$user_id)
     {
         $arraySkills = array_filter(explode(',', strtolower(strip_tags($this->skills))));
-        foreach ($arraySkills as $skill) {
+        
+        foreach ($arraySkills as $skill) 
+        {            
             $query = new Query;
-            $skillModel = $query->select("name")->from('skill')->where(['name'=>trim($skill)])->scalar();                  
-            if (!$skillModel) {
+
+            $skillModel = $query->select("name")
+                    ->from('skill')
+                    ->where(['name'=>trim($skill)])
+                    ->scalar();     
+
+            if(!$skillModel) 
+            {
                     $skillModel = new Skill();
                     $skillModel->name = trim($skill);
                     $skillModel->save();
             }     
         }  
-        $sql = "DELETE FROM rel_user_skills WHERE user_id=$user_id";            
+        
+        $sql = "DELETE FROM rel_user_skills WHERE user_id=$user_id";  
+        
         Yii::$app->db->createCommand($sql)->execute();
-        foreach ($arraySkills as $skill) {
-                $skillId = $query->select("id")->from('skill')->where(['name'=>trim($skill)])->scalar();                  
-                Yii::$app->db->createCommand()->insert('rel_user_skills',[
-                        'user_id' => $user_id,
-                        'skill_id' => $skillId,
-                ])->execute();                    
+        
+        foreach ($arraySkills as $skill) 
+        {
+                $skillId = $query->select("id")
+                        ->from('skill')
+                        ->where(['name'=>trim($skill)])
+                        ->scalar();         
+                
+                Yii::$app->db->createCommand()
+                        ->insert('rel_user_skills',[
+                            'user_id' => $user_id,
+                            'skill_id' => $skillId])
+                        ->execute();                    
         }
     }
     
@@ -94,13 +112,16 @@ class Profile extends \yii\db\ActiveRecord
     public static function getUserSkills($user_id = '')
     {
             $str = null;
-            if (!empty($user_id)) {
-
-                    $modeluserskills = RelUserSkills::find()->where(['user_id' => $user_id])->all();
-                    if ($modeluserskills) {
-                        $arrayModels = \yii\helpers\ArrayHelper::map($modeluserskills, 'skill_id','skill.name'); //id = your ID model, name = your caption                          
-                        $str = implode(',', $arrayModels);
-                    }
+            if (!empty($user_id)) 
+            {
+                $modeluserskills = RelUserSkills::find()
+                                    ->where(['user_id' => $user_id])
+                                    ->all();
+                
+                if($modeluserskills) {
+                    $arrayModels = \yii\helpers\ArrayHelper::map($modeluserskills, 'skill_id','skill.name'); //id = your ID model, name = your caption                          
+                    $str = implode(',', $arrayModels);
+                }
             }
             return $str;
     } 
@@ -113,8 +134,9 @@ class Profile extends \yii\db\ActiveRecord
     {
             $skills = $this->userSkills;
             $result = array();
-            foreach ($skills as $skill) {
-                    $result[] = $skill['name'];
+            foreach ($skills as $skill) 
+            {
+                $result[] = $skill['name'];
             }
             return implode(',', $result);
     }   
@@ -148,13 +170,17 @@ class Profile extends \yii\db\ActiveRecord
     
     public function getDisplayImage() 
     {
-        $model= \common\models\Profile::find()->where(['id'=>yii::$app->user->id])->one();
+        $model= \common\models\Profile::find()
+                    ->where(['id'=>yii::$app->user->id])
+                    ->one();
         
-        if (empty($model->avatar)) {
+        if (empty($model->avatar)) 
+        {
             // if you do not want a placeholder
             $image = null;
         }
-        else {
+        else 
+        {
             $image = Html::img(Yii::$app->urlManager->baseUrl . '/uploads/' . $model->avatar, [
                 'alt'=>Yii::t('app', 'Avatar for ') . $model->username,
                 'title'=>Yii::t('app', 'Click remove button below to remove this image'),

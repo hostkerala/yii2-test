@@ -1,16 +1,13 @@
 <?php
 
-/**
-* Created By Roopan v v <yiioverflow@gmail.com>
-* Date : 24-04-2015
-* Time :3:00 PM
-*/
-
 namespace common\models;
 
 use Yii;
 
 /**
+ * Created By Roopan v v <yiioverflow@gmail.com>
+ * Date : 24-04-2015
+ * Time :3:00 PM
  * This is the model class for table "categories".
  *
  * @property integer $id
@@ -64,7 +61,8 @@ class Categories extends \yii\db\ActiveRecord
      */
     public function getTopics()
     {
-        return $this->hasMany(Topic::className(), ['id' => 'topic_id'])->viaTable('rel_topic_category', ['categories_id' => 'id']);
+        return $this->hasMany(Topic::className(), ['id' => 'topic_id'])
+                    ->viaTable('rel_topic_category', ['categories_id' => 'id']);
     }
     
     public static function dropdown() {

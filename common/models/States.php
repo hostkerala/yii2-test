@@ -1,18 +1,15 @@
 <?php
 
-/**
-* Created By Roopan v v <yiioverflow@gmail.com>
-* Date : 24-04-2015
-* Time :3:00 PM
-*/
-
 namespace common\models;
 
 use Yii;
 
 /**
- * This is the model class for table "states".
  *
+ * Created By Roopan v v <yiioverflow@gmail.com>
+ * Date : 24-04-2015
+ * Time :3:00 PM
+ * This is the model class for table "states".
  * @property integer $id
  * @property string $state_code
  * @property integer $country_id

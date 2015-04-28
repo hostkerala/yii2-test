@@ -1,11 +1,5 @@
 <?php
 
-/**
-* Created By Roopan v v <yiioverflow@gmail.com>
-* Date : 24-04-2015
-* Time :3:00 PM
-*/
-
 namespace frontend\controllers;
 
 use Yii;
@@ -24,9 +18,14 @@ use yii\data\ActiveDataProvider;
 use common\filters\AccessRules;
 use yii\db\Query;
 use yii\helpers\Json;
+
 /**
- * Site controller
- */
+* Created By Roopan v v <yiioverflow@gmail.com>
+* Date : 24-04-2015
+* Time :3:00 PM
+* SiteController
+*/
+
 class SiteController extends Controller
 {
     public $defaultAction = 'users';
@@ -85,11 +84,13 @@ class SiteController extends Controller
     {  
         $query = \common\models\User::find();        
         $dataProvider = new ActiveDataProvider([
-                                'query' =>$query,
-                                'pagination' => false
+                            'query' =>$query,
+                            'pagination' => false
                         ]);
         if (Yii::$app->request->get('skill')) {
-                $skill = \common\models\Skill::find()->where(['id' => Yii::$app->request->get('skill')])->one();
+                $skill = \common\models\Skill::find()
+                            ->where(['id' => Yii::$app->request->get('skill')])
+                            ->one();
                 if ($skill) {
                         $query->joinWith('relUserSkills');  
                         $query->andFilterWhere(['skill_id' => $skill->id]);
@@ -112,9 +113,8 @@ class SiteController extends Controller
         if (isset($_GET['term'])) 
         {
             $query->select('name')
-                   ->from('skill');
-            $query->andWhere(['like', 'name', $_GET['term']]);                  
-            // ->bindValue(":name", '%' . $_GET['term'] . '%', PDO::PARAM_STR);
+                        ->from('skill')
+                        ->andWhere(['like', 'name', $_GET['term']]);                  
             $result = $query->all();
         }        
         echo Json::encode($result);

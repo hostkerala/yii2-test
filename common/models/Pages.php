@@ -1,16 +1,13 @@
 <?php
 
-/**
-* Created By Roopan v v <yiioverflow@gmail.com>
-* Date : 24-04-2015
-* Time :3:00 PM
-*/
-
 namespace common\models;
 
 use Yii;
 
 /**
+ * Created By Roopan v v <yiioverflow@gmail.com>
+ * Date : 24-04-2015
+ * Time :3:00 PM
  * This is the model class for table "pages".
  *
  * @property integer $id

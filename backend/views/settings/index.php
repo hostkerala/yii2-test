@@ -4,9 +4,13 @@ use yii\bootstrap\Tabs;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+/**
+* Created By Roopan v v <yiioverflow@gmail.com>
+* Date : 24-04-2015
+* Time :3:00 PM
+* @var $this yii\web\View 
+*/
 
-
-/* @var $this yii\web\View */
 $this->title = 'Settings';
 $this->params['breadcrumbs'][] = $this->title;
 ?>

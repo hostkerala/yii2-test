@@ -1,11 +1,5 @@
 <?php
 
-/**
-* Created By Roopan v v <yiioverflow@gmail.com>
-* Date : 24-04-2015
-* Time :3:00 PM
-*/
-
 namespace common\models;
 
 use Yii;
@@ -13,6 +7,10 @@ use Yii;
 /**
  * This is the model class for table "rel_topic_skills".
  *
+ * Created By Roopan v v <yiioverflow@gmail.com>
+ * Date : 24-04-2015
+ * Time :3:00 PM
+ * 
  * @property integer $skill_id
  * @property integer $topic_id
  *

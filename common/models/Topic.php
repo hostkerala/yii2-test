@@ -1,17 +1,16 @@
 <?php
 
-/**
-* Created By Roopan v v <yiioverflow@gmail.com>
-* Date : 24-04-2015
-* Time :3:00 PM
-*/
-
 namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
 /**
+ * 
+ * Created By Roopan v v <yiioverflow@gmail.com>
+ * Date : 24-04-2015
+ * Time :3:00 PM
+ * 
  * This is the model class for table "topic".
  *
  * @property string $created_at
@@ -114,7 +113,8 @@ class Topic extends \yii\db\ActiveRecord
      */
     public static function getSkills()
     {
-        return $this->hasMany(Skill::className(), ['id' => 'skill_id'])->viaTable('rel_topic_skills', ['topic_id' => 'id']);
+        return $this->hasMany(Skill::className(), ['id' => 'skill_id'])
+                    ->viaTable('rel_topic_skills', ['topic_id' => 'id']);
     }
     
     /**
@@ -161,9 +161,9 @@ class Topic extends \yii\db\ActiveRecord
     
     public static function isAuthor($topicId)
     {            
-       $topic = Topic::find()->where(['id'=>$topicId])->one();
+       $topic = Topic::find()->where(['id'=>$topicId,'user_id'=>yii::$app->user->id])->one();
        
-        if($topic->user_id == yii::$app->user->id)
+        if($topic->id)
         {
             return true;
         }

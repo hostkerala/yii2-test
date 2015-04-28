@@ -10,7 +10,9 @@
  */
 
 use dektrium\user\models\User;
+use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Nav;
+use yii\helpers\Html;
 use yii\web\View;
 
 /**
@@ -18,7 +20,10 @@ use yii\web\View;
  * @var User $user
  */
 
-$this->title = Yii::t('user', 'Update user account');
+$this->title = Yii::t('user', 'Update a user account');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Users'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <?= $this->render('/_alert', [
@@ -27,10 +32,55 @@ $this->title = Yii::t('user', 'Update user account');
 
 <?php $this->render('_menu') ?>
 <div class="row">
+<!--    <div class="col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <?= Nav::widget([
+                    'options' => [
+                        'class' => 'nav-pills nav-stacked'
+                    ],
+                    'items' => [
+                        ['label' => Yii::t('user', 'Account details'), 'url' => ['/user/admin/create']],
+                        ['label' => Yii::t('user', 'Profile details'), 'options' => [
+                            'class' => 'disabled',
+                            'onclick' => 'return false;'
+                        ]],
+                        ['label' => Yii::t('user', 'Information'), 'options' => [
+                            'class' => 'disabled',
+                            'onclick' => 'return false;'
+                        ]],
+                    ]
+                ]) ?>
+            </div>
+        </div>
+    </div>-->
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-body">
-                <?= $content ?>
+                <div class="alert alert-info">
+                    <?= Yii::t('user', 'Credentials will be sent to the user by email') ?>.
+                    <?= Yii::t('user', 'A password will be generated automatically if not provided') ?>.
+                </div>
+                <?php $form = ActiveForm::begin([
+                    'layout' => 'horizontal',
+                    'enableAjaxValidation'   => true,
+                    'enableClientValidation' => false,
+                    'fieldConfig' => [
+                        'horizontalCssClasses' => [
+                            'wrapper' => 'col-sm-9',
+                        ]
+                    ],
+                ]); ?>
+
+                <?= $this->render('_user', ['form' => $form, 'user' => $user]) ?>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-3 col-lg-9">
+                        <?= Html::submitButton(Yii::t('user', 'Update'), ['class' => 'btn  btn-primary']) ?>
+                    </div>
+                </div>
+
+                <?php ActiveForm::end(); ?>
             </div>
         </div>
     </div>

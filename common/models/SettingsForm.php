@@ -1,21 +1,5 @@
 <?php
 
-/**
-* Created By Roopan v v <yiioverflow@gmail.com>
-* Date : 24-04-2015
-* Time :3:00 PM
-*/
-
-
-/*
- * This file is part of the Dektrium project.
- *
- * (c) Dektrium project <http://github.com/dektrium/>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace dektrium\user\models;
 namespace common\models;
 
@@ -25,16 +9,15 @@ use dektrium\user\Module;
 use yii\base\Model;
 use yii\base\NotSupportedException;
 
-
-
 use dektrium\user\models\SettingsForm as BaseSettingsForm;
 use yii\db\Query;
 
 use Yii;
 
-
-
 /**
+ * Created By Roopan v v <yiioverflow@gmail.com>
+ * Date : 24-04-2015
+ * Time :3:00 PM
  * SettingsForm gets user's username, email and password and changes them.
  *
  * @property User $user
@@ -47,16 +30,6 @@ class SettingsForm extends BaseSettingsForm
     public function rules()
     {
         return [
-            //'usernameRequired' => ['username', 'required'],
-            //'usernameTrim' => ['username', 'filter', 'filter' => 'trim'],
-            //'usernameLenth' => ['username', 'string', 'min' => 3, 'max' => 20],
-            //'usernamePattern' => ['username', 'match', 'pattern' => '/^[-a-zA-Z0-9_\.@]+$/'],
-           // 'emailRequired' => ['email', 'required'],
-            //'emailTrim' => ['email', 'filter', 'filter' => 'trim'],
-            //'emailPattern' => ['email', 'email'],
-            //'emailUsernameUnique' => [['email', 'username'], 'unique', 'when' => function ($model, $attribute) {
-                //return $this->user->$attribute != $model->$attribute;
-            //}, 'targetClass' => $this->module->modelMap['User']],
             'newPasswordLength' => ['new_password', 'string', 'min' => 6],
             'currentPasswordRequired' => ['current_password', 'required'],
             'currentPasswordValidate' => ['current_password', function ($attr) {

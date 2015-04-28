@@ -1,11 +1,5 @@
 <?php
 
-/**
-* Created By Roopan v v <yiioverflow@gmail.com>
-* Date : 24-04-2015
-* Time :3:00 PM
-*/
-
 namespace backend\controllers;
 
 use Yii;
@@ -16,8 +10,12 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
+ * Created By Roopan v v <yiioverflow@gmail.com>
+ * Date : 24-04-2015
+ * Time :3:00 PM
  * CountryController implements the CRUD actions for Countries model.
  */
+
 class CountryController extends Controller
 {
     public function behaviors()
@@ -111,8 +109,7 @@ class CountryController extends Controller
             foreach($states->zipareas as $zipareas)
             {
                 $zipareas->delete();
-            }
-            
+            }            
             $states->delete();
         }
         $model->delete();        

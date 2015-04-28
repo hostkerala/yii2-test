@@ -11,6 +11,13 @@ use yii\helpers\Url;
 
 use dektrium\user\controllers\SettingsController as BaseSettingsController;
 
+/**
+* Created By Roopan v v <yiioverflow@gmail.com>
+* Date : 24-04-2015
+* Time :3:00 PM
+* UserController.
+*/
+
 class UserController extends BaseSettingsController
 {
     
@@ -47,7 +54,9 @@ class UserController extends BaseSettingsController
     
     public function actionProfile()
     {
-        $model = Profile::find()->where(['id'=>Yii::$app->user->id])->one();
+        $model = Profile::find()
+                    ->where(['id'=>Yii::$app->user->id])
+                    ->one();
 
         $this->performAjaxValidation($model);
         
@@ -66,7 +75,7 @@ class UserController extends BaseSettingsController
                 if(isset($file->name))
                 {
                     $path = Yii::$app->params['uploadPath'] . yii::$app->user->id.$time.".jpg";
-                    if (file_exists($path)) { unlink ($path); }
+                    if(file_exists($path)) { unlink ($path); }
                     $file->saveAs($path);
                 }
                 Yii::$app->getSession()->setFlash('success', \Yii::t('user', 'Your profile has been updated'));
@@ -89,12 +98,18 @@ class UserController extends BaseSettingsController
     public function actionStates()
     {
         $out = [];
-        if (isset($_POST['depdrop_parents'])) {
+        
+        if (isset($_POST['depdrop_parents'])) 
+        {            
             $parents = $_POST['depdrop_parents'];
             if ($parents != null) {
                 $country_id = $parents[0];
-                $out=\common\models\States::find()->where(['country_id'=>$country_id])->all();
+                $out=\common\models\States::find()
+                        ->where(['country_id'=>$country_id])
+                        ->all();
+                
                 $result = [];
+                
                 if(!empty($out))
                 {
                     foreach($out as $states):
@@ -102,6 +117,7 @@ class UserController extends BaseSettingsController
                     endforeach;
                     
                 }
+                
                 echo Json::encode(['output'=>$result, 'selected'=>'']);
                 return;
             }
@@ -125,13 +141,17 @@ class UserController extends BaseSettingsController
             $country_id = empty($ids[0]) ? null : $ids[0];
             $state_id = empty($ids[1]) ? null : $ids[1];
             if ($country_id != null) {
-                $data=\common\models\Zipareas::find()->where(['state'=>$state_id])->all();
+                $data=\common\models\Zipareas::find()
+                        ->where(['state'=>$state_id])
+                        ->all();
+                
                 if(!empty($data))
                 {
                     foreach($data as $city):
                     $result[] = ['id'=>$city->id,'name'=>$city->city]; 
                     endforeach;
                 }
+                
                echo Json::encode(['output'=>$result, 'selected'=>'']);
                return;
             }
@@ -170,13 +190,18 @@ class UserController extends BaseSettingsController
     
     public function actionRemove($id) 
     {       
-        $model = Profile::find()->where(['id'=>Yii::$app->user->id])->one();
+        $model = Profile::find()
+                    ->where(['id'=>Yii::$app->user->id])
+                    ->one();
+        
         $model->skills = $model->getUserSkills(Yii::$app->user->id);
         $image = Yii::$app->params['uploadPath'].$model->avatar;
+        
         if (unlink($image)) {
             $model->avatar = null;
             $model->save(false);
         }
+        
         return $this->redirect(Url::to(['/user/settings/profile']));
     }      
 }

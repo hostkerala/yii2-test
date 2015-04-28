@@ -19,8 +19,12 @@ use yii\data\SqlDataProvider;
 
 
 /**
- * TopicController implements the CRUD actions for Topic model.
- */
+* Created By Roopan v v <yiioverflow@gmail.com>
+* Date : 24-04-2015
+* Time :3:00 PM
+* TopicController.
+*/
+
 class TopicController extends Controller
 {
     public function behaviors()
@@ -83,10 +87,12 @@ class TopicController extends Controller
                                 $this->redirect(Url::to(['topic/view','id'=>$id]));
                         }
                 }  
-        }
+        }        
         
-        
-        $sql = "SELECT * FROM topic WHERE user_id = :user_id AND id <> :id AND topic_end >= UNIX_TIMESTAMP(CURDATE())";
+        $sql = "SELECT * FROM topic "
+                . "WHERE user_id = :user_id "
+                . "AND id <> :id "
+                . "AND topic_end >= UNIX_TIMESTAMP(CURDATE())";
         
         $count = Yii::$app->db->createCommand($sql,[':user_id'=>$model->user_id,':id'=>$model->id])->queryScalar();
         
@@ -150,7 +156,8 @@ class TopicController extends Controller
                 'model' => $model,
             ]);
         } else {
-            $model->topic_end=Yii::$app->formatter->asDate($model->topic_end, "yyyy-MM-dd");
+            $model->topic_end=Yii::$app->formatter
+                        ->asDate($model->topic_end, "yyyy-MM-dd");
             return $this->render('update', [
                 'model' => $model,
             ]);
@@ -173,7 +180,7 @@ class TopicController extends Controller
         foreach($topic->comments as $comments)
         {
             $comments->delete();
-        }
+        }    
         
         foreach($topic->relTopicSkills as $skills)
         {
@@ -181,6 +188,7 @@ class TopicController extends Controller
         }
         
         $topic->delete();
+        
         return $this->redirect(['index']);
     }
 
@@ -208,7 +216,9 @@ class TopicController extends Controller
      */
     public function actionList($id)
     {
-            $model = \common\models\Topic::find()->where(['id'=>$id])->one();
+            $model = \common\models\Topic::find()
+                        ->where(['id'=>$id])
+                        ->one();
             echo $this->renderAjax('comments/_list',['model'=>$model]);
             yii::$app->end();
 

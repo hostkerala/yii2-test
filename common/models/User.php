@@ -1,11 +1,5 @@
 <?php
 
-/**
-* Created By Roopan v v <yiioverflow@gmail.com>
-* Date : 24-04-2015
-* Time :3:00 PM
-*/
-
 namespace common\models;
 
 use dektrium\user\Finder;
@@ -28,6 +22,10 @@ use Yii;
 /**
  * This is the model class for table "user".
  *
+ * Created By Roopan v v <yiioverflow@gmail.com>
+ * Date : 24-04-2015
+ * Time :3:00 PM
+ * 
  * @property integer $id
  * @property string $password_hash
  * @property string $auth_key

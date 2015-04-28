@@ -1,19 +1,15 @@
 <?php
 
-/**
-* Created By Roopan v v <yiioverflow@gmail.com>
-* Date : 24-04-2015
-* Time :3:00 PM
-*/
-
-
 namespace common\models;
 
 use Yii;
 
 /**
+ * Created By Roopan v v <yiioverflow@gmail.com>
+ * Date : 24-04-2015
+ * Time :3:00 PM
  * This is the model class for table "comments".
- *
+ * 
  * @property integer $id
  * @property string $content
  * @property string $createdAt
@@ -84,7 +80,9 @@ class Comments extends \yii\db\ActiveRecord
         {
             return true;                
         }
-        else if(\common\models\Comments::find()->where(['userId'=>$userId,'topicId'=>$topicId])->one())
+        else if(\common\models\Comments::find()
+                    ->where(['userId'=>$userId,'topicId'=>$topicId])
+                    ->one())
         {
             return false;                
         }
