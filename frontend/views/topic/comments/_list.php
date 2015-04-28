@@ -13,7 +13,7 @@ use yii\helpers\Url;
         <?php $country = $comment->user->state->country;   ?>
         <div class="media-left">
           <a href="#">
-              <?php $image = is_null($comment->user->avatar) ? 'default.jpg' : $comment->user->avatar; ?>
+              <?php $image = is_null($comment->user->avatar) || empty($comment->user->avatar) ? 'default.jpg' : $comment->user->avatar; ?>
               <img class="media-object" style="width: 64px; height: 64px;" src="<?= Yii::$app->urlManager->baseUrl . '/uploads/' . $image ?>" class="img-rounded" alt="<?= $user->username ?>"/>
           </a>
         </div>

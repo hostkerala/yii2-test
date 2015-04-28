@@ -22,9 +22,8 @@ $networksVisible = count(Yii::$app->authClientCollection->clients) > 0;
             <?php
             $user = common\models\Profile::find()->where(['id'=>yii::$app->user->id])->one();
             ?>
-            <?php if($user->avatar):  ?>
-                <img src="<?= Yii::$app->urlManager->baseUrl . '/uploads/'.$user->avatar ?>" class="img-rounded" alt="<?= Yii::$app->urlManager->baseUrl . '/uploads/'.$user->avatar ?>" height="25" width="25"/>
-            <?php endif; ?>
+            <?php $image = is_null($user->avatar) || empty($user->avatar) ? 'default.jpg' : $image; ?>
+            <img src="<?= Yii::$app->urlManager->baseUrl . '/uploads/'.$image ?>" class="img-rounded" alt="<?= Yii::$app->urlManager->baseUrl . '/uploads/'.$user->avatar ?>" height="25" width="25"/>
             <?= $user->username ?>
         </h3>
     </div>

@@ -57,14 +57,15 @@ class UserController extends BaseSettingsController
             
             if(isset($file->name))
             {
-                    $model->avatar = yii::$app->user->id.".jpg";
+                    $time = time();
+                    $model->avatar = yii::$app->user->id.$time.".jpg";
             }
                   
             if($model->save()) 
             {         
                 if(isset($file->name))
                 {
-                    $path = Yii::$app->params['uploadPath'] . yii::$app->user->id.".jpg";
+                    $path = Yii::$app->params['uploadPath'] . yii::$app->user->id.$time.".jpg";
                     if (file_exists($path)) { unlink ($path); }
                     $file->saveAs($path);
                 }

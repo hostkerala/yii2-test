@@ -32,7 +32,7 @@ class AdminController extends BaseAdminController
 
         if ($user->load(Yii::$app->request->post()) && $user->create()) {
             Yii::$app->getSession()->setFlash('success', Yii::t('user', 'User has been created'));
-            return $this->redirect(['update', 'id' => $user->id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [

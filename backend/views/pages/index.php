@@ -21,16 +21,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        //'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'title',
             'slug',
             'content:ntext',
-            'status',
-
+            [
+                'attribute'=>'status',
+                'value'=>function ($model, $index, $widget) {
+                    return $model->status == 1 ? "Published" : "Draft";
+                },
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
