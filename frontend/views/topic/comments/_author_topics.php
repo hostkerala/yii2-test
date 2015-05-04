@@ -18,7 +18,13 @@ use yii\grid\GridView;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'title',
-            'content:ntext',
+            [
+                'attribute' => 'content',
+                'value' => function ($model) {                      
+                    return $model['content'];
+                },  
+            'contentOptions'=>['style'=>'max-width: 150px;word-wrap: break-word;']                         
+            ], 
             ['class' => 'yii\grid\ActionColumn','template' => '{view}',   
                 'urlCreator' => function ($action, $model, $key, $index) {
                     if ($action === 'view') { 

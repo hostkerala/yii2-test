@@ -65,20 +65,20 @@ echo Select2::widget([
  
 <table class="table table-bordered table-striped">
     <tr>
-        <th class="col-md-6">Username</th>
-        <td class="col-md-6"><?= $user->username ?></td>
+        <th class="col-md-2 text-right">Username</th>
+        <td class="col-md-10 text-left"><?= $user->username ?></td>
     </tr>
     <tr>
-        <th class="col-md-6">State</th>
-        <td class="col-md-6"><?= $user->state->state_name_en  ? $user->state->state_name_en:'Not set' ?></td>
+        <th class="col-md-2 text-right">State</th>
+        <td class="col-md-10 text-left"><?= $user->state->state_name_en  ? $user->state->state_name_en:'Not set' ?></td>
     </tr>
          <tr>
-        <th class="col-md-6">City</th>
-        <td class="col-md-6"><?= $user->city->city ? $user->city->city   :'Not set'?></td>
+        <th class="col-md-2 text-right">City</th>
+        <td class="col-md-10 text-left"><?= $user->city->city ? $user->city->city   :'Not set'?></td>
     </tr>
          <tr>
-        <th class="col-md-6">Skills</th>
-        <td class="col-md-6"><?= $user->userSkillsString ? $user->userSkillsString: 'Not set' ?></td>
+        <th class="col-md-2 text-right">Skills</th>
+        <td class="col-md-10 text-left"><?= $user->userSkillsString ? $user->userSkillsString: 'Not set' ?></td>
     </tr>
 </table>
 

@@ -27,8 +27,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'title',
-            'content:ntext',
+            [
+                'attribute' => 'title',
+                'value' => function ($model) {                      
+                    return $model->title;
+                },  
+            'contentOptions'=>['style'=>'max-width: 100px;word-wrap: break-word;']                         
+            ],             
+            [
+                'attribute' => 'content',
+                'value' => function ($model) {                      
+                    return $model->content;
+                },  
+            'contentOptions'=>['style'=>'max-width: 150px;word-wrap: break-word;']                         
+            ], 
+            
+            
             [
                 'attribute' => 'created_at',
                 'value' => function ($model) {                      

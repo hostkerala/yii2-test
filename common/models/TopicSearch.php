@@ -75,9 +75,17 @@ class TopicSearch extends Topic
             'status' => $this->status,
             'skill_id'=>$this->skills,
         ]);       
+        
+        if($this->topic_end)
+        {      
+            $query->andFilterWhere(["DATE_FORMAT( FROM_UNIXTIME(`topic_end` ) ,  '%m/%d/%Y' )"=>$this->topic_end]);
+            
+        }
+        
+        $query->andFilterWhere(['>=','topic_end',time()]);
+        
+        $query->andFilterWhere(["DATE_FORMAT( FROM_UNIXTIME(  `created_at` ) ,  '%m/%d/%Y' )"=>$this->created_at]);
 
-        $query->andFilterWhere(["DATE_FORMAT( FROM_UNIXTIME(  `created_at` ) ,  '%m/%d/%Y' )"=>$this->created_at])
-                ->andFilterWhere(["DATE_FORMAT( FROM_UNIXTIME(`topic_end` ) ,  '%m/%d/%Y' )"=>$this->topic_end]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'content', $this->content])

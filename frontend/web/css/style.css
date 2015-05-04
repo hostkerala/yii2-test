@@ -40,3 +40,15 @@
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 
 }
+
+#messages a 
+{
+    text-decoration: none;
+    color:#555;   
+}
+.message-summary 
+{
+    max-width:550px; 
+    word-wrap:break-word;
+}
+
