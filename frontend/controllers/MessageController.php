@@ -22,7 +22,7 @@ class MessageController extends \yii\web\Controller
                 ],
                 'rules' => [
                     [
-                        'actions' => ['index','list'],
+                        'actions' => ['index','list','inbox','inboxlist'],
                         'allow' => true,
                         'roles' => ['@','admin'],
                     ],
@@ -62,4 +62,23 @@ class MessageController extends \yii\web\Controller
         
         return $this->renderAjax('_message',['model'=>$model]);
     }
+    
+    public function actionInbox()
+    {
+        $model = Topic::find()
+            ->where(['user_id'=>yii::$app->user->id])
+            ->orderBy('created_at DESC')                
+            ->all();
+         return $this->render('inbox',['model'=>$model]);
+    }  
+    
+    public function actionInboxlist()
+    {
+        $topic = new Topic;
+        $model = $topic->find()
+                    ->where(['user_id'=>yii::$app->user->id])
+                    ->orderBy('created_at DESC')
+                    ->all();
+        return $this->renderAjax('_inbox_messages',['model'=>$model]);
+    }     
 }

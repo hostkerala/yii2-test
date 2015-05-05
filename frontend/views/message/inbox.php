@@ -12,20 +12,12 @@ use yii\helpers\Url;
     <div class="col-md-12">
         <div class="col-md-3">
             <div class="list-group"> 
-                <a href="<?= Url::to(['/topic/view','id'=>$model->id]);  ?>" class="list-group-item list-group-item-info">Go to Topic Page</a>
-                <a href="<?= Url::to(['/message/inbox']);  ?>" class="list-group-item list-group-item-info">Inbox</a>
-                <a href="#jump-to" class="list-group-item list-group-item-info"> Reply to Message</a>
+                <a href="<?= Url::to(['/topic/index']);  ?>" class="list-group-item list-group-item-info">Go to Topic Page</a>
             </div>    
         </div>
         <div class="col-md-9">
             <div id="message-panel" class="col-md-12">
-                <?php echo $this->render('_message', ['model'=>$model]); ?>
-            </div>
-            <div class="row">
-            <div class="col-md-12">               
-                <h4>Reply</h4>
-                <?php echo $this->render('_form', ['model'=>$model, 'commentForm' => $commentForm]); ?>
-            </div>   
+                <?php echo $this->render('_inbox_messages', ['model'=>$model]); ?>
             </div>
         </div>        
     </div>
@@ -37,7 +29,7 @@ $this->registerJs("$(document).ready(function() {
         setInterval(ajaxCall, 30000); // Request in every 30 seconds
         function ajaxCall() {            
             $.ajax({
-              url: '".Url::to(['message/list','id'=>$model->id])."',
+              url: '".Url::to(['message/inboxlist'])."',
               cache: false
             })
               .done(function( html ) {
