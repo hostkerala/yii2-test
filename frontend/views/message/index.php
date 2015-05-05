@@ -22,9 +22,13 @@ use yii\helpers\Url;
                 <?php echo $this->render('_message', ['model'=>$model]); ?>
             </div>
             <div class="row">
-            <div class="col-md-12">               
+            <div class="col-md-12">
+                <?php if($model->comments->count > 0) { ?>
                 <h4>Reply</h4>
                 <?php echo $this->render('_form', ['model'=>$model, 'commentForm' => $commentForm]); ?>
+                <?php } else { ?>
+                <p class="text-muted">No Messages</p>   
+                <?php } ?>
             </div>   
             </div>
         </div>        
