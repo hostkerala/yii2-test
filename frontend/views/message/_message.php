@@ -23,6 +23,9 @@
                 <div class="col-md-9 pull-right">                    
                     <div id="messages" class="media-body">
                         <div class="message-summary media"><?= $message->content ?></div>
+                        <?php if(!is_null($message->attach_file)): ?>
+                        <p><a target="_blank"href="<?= Yii::$app->urlManager->baseUrl . '/uploads/messages/' . $message->attach_file ?>">Attached File</a></p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </li>

@@ -22,6 +22,8 @@ use Yii;
  */
 class Comments extends \yii\db\ActiveRecord
 {
+    public $file;
+    
     /**
      * @inheritdoc
      */
@@ -38,8 +40,9 @@ class Comments extends \yii\db\ActiveRecord
         return [
             [['content', 'createdAt'], 'required'],
             [['content'], 'string'],
-            [['topicId','createdAt', 'updatedAt'], 'safe'],
-            [['userId', 'topicId'], 'integer']
+            [['topicId','createdAt', 'updatedAt', 'attach_file'], 'safe'],
+            [['userId', 'topicId'], 'integer'],
+            [['attach_file'], 'file', 'extensions'=>'pdf'],
         ];
     }
 
@@ -55,6 +58,7 @@ class Comments extends \yii\db\ActiveRecord
             'updatedAt' => 'Updated At',
             'userId' => 'User ID',
             'topicId' => 'Topic ID',
+            'attach_file' => 'Attach File',
         ];
     }
 
