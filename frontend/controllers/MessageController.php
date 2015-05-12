@@ -63,8 +63,6 @@ class MessageController extends \yii\web\Controller
                     $commentForm->attach_file = $time.".pdf";
             }
             
-            //print_r($commentForm);exit;
-            
             if($commentForm->save()) 
             {         
                 if(isset($file->name))
@@ -76,15 +74,13 @@ class MessageController extends \yii\web\Controller
                 Yii::$app->getSession()->setFlash('success', \Yii::t('user', 'Your Message sent successfuly'));
                 return $this->refresh();
             }  
-            print_r($commentForm->getErrors());exit;
             $commentForm = new Comments;
         }
         
         $topicId = Yii::$app->request->get('id');
         $model = Topic::find()
             ->where(['id'=>$topicId])
-            ->one();
-        
+            ->one();        
         return $this->render('index',['model'=>$model,'commentForm'=>$commentForm]);
     }
     
@@ -115,7 +111,8 @@ class MessageController extends \yii\web\Controller
     public function actionInbox()
     {
         $model = Topic::find()
-            ->where(['user_id'=>yii::$app->user->id])
+            ->joinWith('comments')
+            ->where(['comments.userId'=>yii::$app->user->id])
             ->orderBy('created_at DESC')                
             ->all();
          return $this->render('inbox',['model'=>$model]);
