@@ -28,7 +28,7 @@ class MessageController extends \yii\web\Controller
                 ],
                 'rules' => [
                     [
-                        'actions' => ['index','list','inbox','inboxlist'],
+                        'actions' => ['index','list','inbox','inboxlist','sent','sentlist'],
                         'allow' => true,
                         'roles' => ['@','admin'],
                     ],
@@ -112,7 +112,7 @@ class MessageController extends \yii\web\Controller
     {
         $model = Topic::find()
             ->joinWith('comments')
-            ->where(['comments.userId'=>yii::$app->user->id])
+            ->where(['user_id'=>yii::$app->user->id])
             ->orderBy('created_at DESC')                
             ->all();
          return $this->render('inbox',['model'=>$model]);
@@ -133,5 +133,40 @@ class MessageController extends \yii\web\Controller
                     ->orderBy('created_at DESC')
                     ->all();
         return $this->renderAjax('_inbox_messages',['model'=>$model]);
-    }     
+    }
+    
+
+    /**
+    * Created By Roopan v v <yiioverflow@gmail.com>
+    * Date : 15-05-2015
+    * Time :8:16 PM
+    * Displays the Sent Page
+    */
+    
+    public function actionSent()
+    {
+        $model = Topic::find()
+            ->joinWith('comments')
+            ->where(['comments.userId'=>yii::$app->user->id])
+            ->orderBy('created_at DESC')                
+            ->all();
+         return $this->render('sent',['model'=>$model]);
+    }  
+
+    /**
+    * Created By Roopan v v <yiioverflow@gmail.com>
+    * Date : 15-05-2015
+    * Time :8:16 PM
+    * Ajax update of Sent Page
+    */
+    
+    public function actionSentlist()
+    {
+        $topic = new Topic;
+        $model = $topic->find()
+                    ->where(['comments.userId'=>yii::$app->user->id])
+                    ->orderBy('created_at DESC')
+                    ->all();
+        return $this->renderAjax('_sent_messages',['model'=>$model]);
+    }      
 }

@@ -73,6 +73,7 @@ AppAsset::register($this);
         <div class="btn-group" role="group" aria-label="...">
             <a href=<?= Url::to(['/site/users']);  ?>><button type="button" class="btn btn-lg btn-primary">Users</button></a>
             <a href=<?= Url::to(['/topic/index']);  ?>><button type="button" class="btn btn-lg btn-info">Topics</button></a>            
+            <a href=<?= Url::to(['/message/inbox']);  ?>><button type="button" class="btn btn-lg btn-success">Send Message</button></a> 
         </div>
         <?php endif; ?>
         <?= $content ?>

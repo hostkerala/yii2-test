@@ -15,7 +15,7 @@ use yii\helpers\Url;
         </div>
         <div class="col-md-9">
             <div id="message-panel" class="col-md-12">
-                <?php echo $this->render('_inbox_messages', ['model'=>$model]); ?>
+                <?php echo $this->render('_sent_messages', ['model'=>$model]); ?>
             </div>
         </div>        
     </div>
@@ -27,7 +27,7 @@ $this->registerJs("$(document).ready(function() {
         setInterval(ajaxCall, 30000); // Request in every 30 seconds
         function ajaxCall() {            
             $.ajax({
-              url: '".Url::to(['message/inboxlist'])."',
+              url: '".Url::to(['message/sentlist'])."',
               cache: false
             })
               .done(function( html ) {

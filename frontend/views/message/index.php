@@ -11,11 +11,7 @@ use yii\helpers\Url;
 <div class="row">
     <div class="col-md-12">
         <div class="col-md-3">
-            <div class="list-group"> 
-                <a href="<?= Url::to(['/topic/view','id'=>$model->id]);  ?>" class="list-group-item list-group-item-info">Go to Topic Page</a>
-                <a href="<?= Url::to(['/message/inbox']);  ?>" class="list-group-item list-group-item-info">Inbox</a>
-                <a href="#jump-to" class="list-group-item list-group-item-info"> Reply to Message</a>
-            </div>    
+            <?php echo $this->render('_message_menu'); ?>
         </div>
         <div class="col-md-9">
             <div id="message-panel" class="col-md-12">

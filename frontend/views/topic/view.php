@@ -17,9 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php  AppAsset::register($this);  ?>
     <?php if($model->user_id == yii::$app->user->id): ?>
-        <div class="btn-group" role="group" aria-label="...">
-            <a href=<?= Url::to(['/message/index','id'=>$model->id]);  ?>><button type="button" class="btn btn-lg btn-success">Send Messages</button></a>
-        </div>
     <?php endif;  ?>
 <div class="topic-view">
 

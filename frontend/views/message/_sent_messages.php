@@ -6,7 +6,7 @@ use yii\helpers\Url;
 <ul class="media-list">
     <li class="media-left">
       <div class="media-body">
-        <h4 class="media-heading">Inbox</h4></h4>
+        <h4 class="media-heading">Sent Messages</h4></h4>
       </div>
     </li>
     <hr>
@@ -16,7 +16,8 @@ use yii\helpers\Url;
              foreach($model as $topic): ?>
                 <?php if(count($topic->comments) > 0): ?>
                     <?php    
-                         $lastComment = $topic->comments[count($topic->comments)-1]; 
+                         $lastComment = $topic->comments[count($topic->comments)-1];                                
+                         if($lastComment->userId == yii::$app->user->id) :                               
                      ?>
                          <a href="<?= Url::to(['/message/index','id'=>$topic->id]);  ?>">
                          <li class="media-left">
@@ -30,6 +31,7 @@ use yii\helpers\Url;
                          </li>
                          </a>       
                          <hr>
+                     <?php  endif; ?>
                <?php endif; ?>
             <?php endforeach; ?>   
         <?php endif; ?> 
