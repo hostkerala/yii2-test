@@ -11,12 +11,14 @@ use kartik\widgets\FileInput;
 ?>
 <div class="row">    
     <?php $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal','enctype'=>'multipart/form-data']]); ?>    
-    <?php echo $form->field($commentForm, 'topicId')->hiddenInput(['value'=>$model->id])->label(false) ?>
+    <?php echo $form->field($messageForm, 'topicId')->hiddenInput(['value'=>$messageForm->topicId])->label(false) ?>
+    <?php echo $form->field($messageForm, 'userId')->hiddenInput(['value'=>$messageForm->userId])->label(false) ?>
+    <?php echo $form->field($messageForm, 'message_to')->hiddenInput(['value'=>$messageForm->message_to])->label(false) ?>
     <div class="form-group"
         <label class="pull-left"><b>Reply</b></label>
     </div>
-    <?php echo $form->field($commentForm, 'content')->textArea(['rows' => '6','placeholder' => 'Write your message here'])->label(false) ?>
-    <?php echo $form->field($commentForm, 'attach_file')->widget(FileInput::classname(), [
+    <?php echo $form->field($messageForm, 'content')->textArea(['rows' => '6','placeholder' => 'Write your message here'])->label(false) ?>
+    <?php echo $form->field($messageForm, 'attach_file')->widget(FileInput::classname(), [
                 'options' => ['accept' => 'image/*','showUpload' => false,],
             ]);
     ?>

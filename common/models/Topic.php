@@ -192,9 +192,20 @@ class Topic extends \yii\db\ActiveRecord
     * Returns the Comments sorted order (DESC created_at).
     */
     
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMessages()
+    {
+        return $this->hasMany(Messages::className(), ['topicId' => 'id']);
+    }   
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getSortedMessages()
     {
-      return $this->hasMany(Comments::className(), ['topicId' => 'id'])->orderBy(['comments.createdAt'=>SORT_DESC]);
-    }
-   
+        return $this->hasMany(Messages::className(), ['topicId' => 'id'])->orderBy(['messages.id'=>SORT_DESC]);
+    }     
 }

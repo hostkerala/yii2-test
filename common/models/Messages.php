@@ -5,30 +5,28 @@ namespace common\models;
 use Yii;
 
 /**
- * Created By Roopan v v <yiioverflow@gmail.com>
- * Date : 24-04-2015
- * Time :3:00 PM
- * This is the model class for table "comments".
- * 
+ * This is the model class for table "messages".
+ *
  * @property integer $id
  * @property string $content
  * @property string $createdAt
  * @property string $updatedAt
  * @property integer $userId
  * @property integer $topicId
+ * @property string $attach_file
+ * @property integer $message_to
  *
  * @property Topic $topic
  * @property User $user
  */
-class Comments extends \yii\db\ActiveRecord
+class Messages extends \yii\db\ActiveRecord
 {
-    
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'comments';
+        return 'messages';
     }
 
     /**
@@ -38,9 +36,9 @@ class Comments extends \yii\db\ActiveRecord
     {
         return [
             [['content', 'createdAt'], 'required'],
-            [['content'], 'string'],
-            [['topicId','createdAt', 'updatedAt', 'attach_file'], 'safe'],
-            [['userId', 'topicId'], 'integer'],
+            [['content', 'attach_file'], 'string'],
+            [['topicId','createdAt', 'updatedAt', 'attach_file','message_to','userId','message_to'], 'safe'],
+            [['attach_file'], 'file', 'extensions'=>'pdf'],
         ];
     }
 
@@ -57,6 +55,7 @@ class Comments extends \yii\db\ActiveRecord
             'userId' => 'User ID',
             'topicId' => 'Topic ID',
             'attach_file' => 'Attach File',
+            'message_to' => 'Message To',
         ];
     }
 
@@ -75,22 +74,4 @@ class Comments extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'userId']);
     }
-    
-    public function isAbletoComment($userId, $topicId)
-    {
-        if(Yii::$app->user->identity->isAdmin)
-        {
-            return true;                
-        }
-        else if(\common\models\Comments::find()
-                    ->where(['userId'=>$userId,'topicId'=>$topicId])
-                    ->one())
-        {
-            return false;                
-        }
-        else
-        {
-            return true;
-        }
-    }
-}   
+}

@@ -2,7 +2,7 @@
 
 namespace frontend\controllers;
 use common\models\Topic;
-use common\models\Comments;
+use common\models\Messages;
 use yii;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
@@ -46,24 +46,23 @@ class MessageController extends \yii\web\Controller
     
     public function actionIndex()
     {
-        $commentForm = new Comments;
+        $messageForm = new Messages;
         
-        if ($commentForm->load(Yii::$app->request->post())) 
+        if ($messageForm->load(Yii::$app->request->post())) 
         {           
             
-            $file = \yii\web\UploadedFile::getInstanceByName('Comments[attach_file]');
+            $file = \yii\web\UploadedFile::getInstanceByName('Messages[attach_file]');
            
-            $commentForm->content = Html::encode($commentForm->content);
-            $commentForm->userId = Yii::$app->user->id;
-            $commentForm->createdAt = date( 'Y-m-d H:i:s');
+            $messageForm->content = Html::encode($messageForm->content);
+            $messageForm->createdAt = date( 'Y-m-d H:i:s');
             
             if(isset($file->name))
             {
                     $time = time();
-                    $commentForm->attach_file = $time.".pdf";
+                    $messageForm->attach_file = $time.".pdf";
             }
             
-            if($commentForm->save()) 
+            if($messageForm->save()) 
             {         
                 if(isset($file->name))
                 {
@@ -74,14 +73,18 @@ class MessageController extends \yii\web\Controller
                 Yii::$app->getSession()->setFlash('success', \Yii::t('user', 'Your Message sent successfuly'));
                 return $this->refresh();
             }  
-            $commentForm = new Comments;
+            $messageForm = new Messages;
         }
         
-        $topicId = Yii::$app->request->get('id');
+        $messageForm->topicId = Yii::$app->request->get('topicId');
+        $messageForm->message_to = Yii::$app->request->get('toUser');
+        $messageForm->userId = Yii::$app->request->get('userId');
+        
         $model = Topic::find()
-            ->where(['id'=>$topicId])
-            ->one();        
-        return $this->render('index',['model'=>$model,'commentForm'=>$commentForm]);
+            ->where(['id'=>$messageForm->topicId])
+            ->one();  
+        
+        return $this->render('index',['model'=>$model,'messageForm'=>$messageForm]);
     }
     
     /**
@@ -111,8 +114,9 @@ class MessageController extends \yii\web\Controller
     public function actionInbox()
     {
         $model = Topic::find()
-            ->joinWith('comments')
-            ->where(['user_id'=>yii::$app->user->id])
+            ->joinWith('messages')
+            ->orWhere(['messages.userId'=>yii::$app->user->id])
+            ->orWhere(['messages.message_to'=>yii::$app->user->id])
             ->orderBy('created_at DESC')                
             ->all();
          return $this->render('inbox',['model'=>$model]);
@@ -129,9 +133,11 @@ class MessageController extends \yii\web\Controller
     {
         $topic = new Topic;
         $model = $topic->find()
-                    ->where(['user_id'=>yii::$app->user->id])
-                    ->orderBy('created_at DESC')
-                    ->all();
+                ->joinWith('messages')
+                ->Where(['messages.userId'=>yii::$app->user->id])
+                ->orWhere(['messages.message_to'=>yii::$app->user->id])
+                ->orderBy('created_at DESC')
+                ->all();  
         return $this->renderAjax('_inbox_messages',['model'=>$model]);
     }
     

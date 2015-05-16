@@ -180,7 +180,12 @@ class TopicController extends Controller
         foreach($topic->comments as $comments)
         {
             $comments->delete();
-        }    
+        }   
+        
+        foreach($topic->messages as $messages)
+        {
+            $messages->delete();
+        } 
         
         foreach($topic->relTopicSkills as $skills)
         {

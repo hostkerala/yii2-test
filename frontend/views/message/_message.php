@@ -11,7 +11,7 @@
             foreach($model->sortedMessages as $message): ?>    
             <?php if(count($message) > 0): ?>
             <li class="media-left">
-                <?php if(yii::$app->user->id == $message->user->id) { ?>
+                <?php if((yii::$app->user->id == $message->userId)) { ?>
                 <div class="col-md-3 pull-left">
                     <h4 class="text-left text-success"><?= Me ?></h4><p><?= date('M d, Y h:i:s',  strtotime($message->createdAt))  ?></p>
                 </div>

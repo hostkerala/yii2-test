@@ -20,7 +20,7 @@ use yii\helpers\Url;
             <div class="row">
             <div class="col-md-12">
                 <?php if(count($model->comments) > 0) { ?>                
-                <?php echo $this->render('_form', ['model'=>$model, 'commentForm' => $commentForm]); ?>
+                <?php echo $this->render('_form', ['model'=>$model, 'messageForm' => $messageForm]); ?>
                 <?php } else { ?>
                 <p class="text-muted">No Messages</p>   
                 <?php } ?>

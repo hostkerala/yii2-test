@@ -37,6 +37,11 @@ else
               </h4>
               <?php if(common\models\Topic::isAuthor($comment->topicId) || ($comment->userId == yii::$app->user->id) || yii::$app->user->identity->isAdmin) { //Admin Have all Rights ?>
               <p class="text-muted" style="max-width:1000px;word-wrap:break-word;"><?php  echo Html::decode($comment->content)?></p>
+              <?php if(common\models\Topic::isAuthor($comment->topicId) &&  $comment->userId != yii::$app->user->id) :?>
+                <div class="btn-group" role="group" aria-label="...">
+                    <a href=<?= Url::to(['/message/index','topicId'=>$comment->topicId,'toUser'=>$comment->userId, 'userId'=>yii::$app->user->id]);  ?>><button type="button" class="btn btn btn-info">Send Message</button></a> 
+                </div>
+              <?php endif;  ?>
               <?php } else { ?>
               <p class="text-muted">No access to read comments</p>              
               <?php } ?>
