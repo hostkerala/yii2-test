@@ -115,8 +115,7 @@ class MessageController extends \yii\web\Controller
     {
         $model = Topic::find()
             ->joinWith('messages')
-            ->orWhere(['messages.userId'=>yii::$app->user->id])
-            ->orWhere(['messages.message_to'=>yii::$app->user->id])
+            ->Where(['messages.message_to'=>yii::$app->user->id])
             ->orderBy('created_at DESC')                
             ->all();
          return $this->render('inbox',['model'=>$model]);
@@ -131,13 +130,11 @@ class MessageController extends \yii\web\Controller
     
     public function actionInboxlist()
     {
-        $topic = new Topic;
-        $model = $topic->find()
-                ->joinWith('messages')
-                ->Where(['messages.userId'=>yii::$app->user->id])
-                ->orWhere(['messages.message_to'=>yii::$app->user->id])
-                ->orderBy('created_at DESC')
-                ->all();  
+        $model = Topic::find()
+            ->joinWith('messages')
+            ->Where(['messages.message_to'=>yii::$app->user->id])
+            ->orderBy('created_at DESC')                
+            ->all();
         return $this->renderAjax('_inbox_messages',['model'=>$model]);
     }
     
@@ -152,8 +149,8 @@ class MessageController extends \yii\web\Controller
     public function actionSent()
     {
         $model = Topic::find()
-            ->joinWith('comments')
-            ->where(['comments.userId'=>yii::$app->user->id])
+            ->joinWith('messages')
+            ->Where(['messages.userId'=>yii::$app->user->id])
             ->orderBy('created_at DESC')                
             ->all();
          return $this->render('sent',['model'=>$model]);

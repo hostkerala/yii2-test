@@ -1,7 +1,7 @@
 <ul class="media-list">
     <li class="media-left">
       <div class="media-body">
-        <h4 class="media-heading"><?= Messages ?></h4></h4>
+        <h3 class="media-heading"><?php echo  $model->content;  ?></h3></h4>
       </div>
     </li>
     <hr>

@@ -207,5 +207,13 @@ class Topic extends \yii\db\ActiveRecord
     public function getSortedMessages()
     {
         return $this->hasMany(Messages::className(), ['topicId' => 'id'])->orderBy(['messages.id'=>SORT_DESC]);
+    } 
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGroupedMessages()
+    {
+        return $this->hasMany(Messages::className(), ['topicId' => 'id'])->where(['<>','userId',yii::$app->user->id])->groupBy('userId');
     }     
 }
